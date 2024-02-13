@@ -1,6 +1,8 @@
 # PROJECT NAME
 *#### Optional: Install prettier in vscode , the configuration file is already in the repository **.prettierrc ***
+
 *#### Optional: MongoDb configuration for Docker is already included in this repository to run docker use ```docker compose up``` ***
+
 1. Clone the project
 2. Install dependencies ```
 npm install```
@@ -9,12 +11,12 @@ npm install```
 ```
 PORT =3000
 NODE_ENV=development
-USER_NAME= texto
-PASSWORD=texto
-MONGO_URL= mongodb://texto:123456@localhost:27017
-MONGO_NAME=texto
-MONGO_USER=texto
-MONGO_PASS=texto
+USER_NAME= text
+PASSWORD=text
+MONGO_URL= mongodb://text:123456@localhost:27017
+MONGO_NAME=text
+MONGO_USER=text
+MONGO_PASS=text
 ```
 4. Environment variables are handle by env-var. To add a new variable add it to .env and them go to :
 ```src/config/plugins/envs/envs.plugin.ts``` 
