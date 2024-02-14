@@ -1,15 +1,20 @@
 import express from "express";
-import cors from 'cors'
-import morgan from 'morgan'
-import { envs } from "./config/envs";
-import rutas from './routes'
+import cors from "cors";
+import morgan from "morgan";
 
-const { PORT } = envs
-const app = express()
-app.use(morgan('dev'))
-app.use(cors({origin: "*"}))
-app.use(rutas)
+import { envs } from "./config/plugins/envs/envs.plugin";
 
-app.listen(PORT, () => {
-    console.log(`App funcionando en puerto: ${PORT}`);
-})
+const app = express();
+//*Middlewares===============
+envs.NODE_ENV === "development" && app.use(morgan("dev"));
+app.use(cors({ origin: "*" }));
+
+app.use(express.json());
+
+//*Middlewares===============
+
+//?Routes====================
+
+//?Routes====================
+
+export default app;
