@@ -1,7 +1,7 @@
 # PROJECT NAME
 *#### Optional: Install prettier in vscode , the configuration file is already in the repository **.prettierrc ***
 
-*#### Optional: MongoDb configuration for Docker is already included in this repository to run docker use ```docker compose up``` ***
+*#### Optional: MongoDb configuration for Docker is already included in this repository to run docker use ```docker compose up -d``` ***
 
 1. Clone the project
 2. Install dependencies ```
