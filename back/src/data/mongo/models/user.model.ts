@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
-const { Schema } = mongoose;
+import mongoose, { Schema } from "mongoose";
+import { IUser } from "../../../config/interfaces/user.interface";
 
 const userSchema = new Schema({
   name: {
@@ -46,4 +46,4 @@ const userSchema = new Schema({
   ],
 });
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.model<IUser>("User", userSchema);
