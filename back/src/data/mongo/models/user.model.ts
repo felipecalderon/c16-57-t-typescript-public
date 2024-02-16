@@ -7,7 +7,7 @@ const userSchema = new Schema({
     required: true,
   },
   age: {
-    type: String,
+    type: Number,
     required: true,
   },
   email: {
@@ -46,4 +46,5 @@ const userSchema = new Schema({
   ],
 });
 
-module.exports = mongoose.model<IUser>("User", userSchema);
+const User = mongoose.model<IUser>("User", userSchema)
+export default User
