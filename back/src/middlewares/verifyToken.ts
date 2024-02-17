@@ -2,10 +2,10 @@ import { NextFunction, Request, Response } from "express";
 import { verify, JwtPayload } from "jsonwebtoken";
 import { envs } from "../config/plugins/envs/envs.plugin";
 
-const { SECRET_JTW } = envs
+const { SECRET_JTW } = envs;
 // Interfaz para el payload esperado
 interface ExpectedPayload extends JwtPayload {
-  id: string;
+  userId: string;
 }
 
 interface CustomRequest extends Request {
@@ -17,15 +17,14 @@ export const verifyToken = (
   res: Response,
   next: NextFunction
 ) => {
-
-  const token = req.headers['auth-token']
+  const token = req.headers["auth-token"];
   if (!token) {
     return res
       .status(403)
       .send({ error: "Acceso denegado. No se proporcionó token." });
   }
 
-  const [ _bearer, tokenJWT ] = token.toString().split(' ')
+  const [_bearer, tokenJWT] = token.toString().split(" ");
 
   return verify(tokenJWT, SECRET_JTW, (err, decodedPayload) => {
     if (err) {
@@ -38,7 +37,9 @@ export const verifyToken = (
       req.userId = payload.userId;
       next();
     } else {
-      return res.status(401).send({ error: "Token inválido. ID de usuario no encontrado." });
+      return res
+        .status(401)
+        .send({ error: "Token inválido. ID de usuario no encontrado." });
     }
   });
 };
