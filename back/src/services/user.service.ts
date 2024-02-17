@@ -45,7 +45,16 @@ export const createUserDB = async ({
     // PENDIENTE: validar datos antes de crear usuario
     // Guardar usuario en DB
     await newUser.save();
-    return newUser;
+    return {
+      id: newUser.id,
+      name,
+      age,
+      email,
+      location,
+      interestIds,
+      events,
+      expenses,
+    };
   } catch (error) {
     throw error;
   }
@@ -66,7 +75,6 @@ export const updateUserDB = async (id: string, updateData: Partial<IUser>) => {
 export const deleteUserDB = async (userId: string) => {
   try {
     const user = await User.findByIdAndDelete(userId);
-    console.log({ user });
     if (!user) return null;
     else return user;
   } catch (error) {
