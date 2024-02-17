@@ -1,8 +1,10 @@
-import routes from './demo.route'
+import userRoute from './user.route'
+import authRoute from './auth.route'
 import { Router } from 'express'
 
-const app = Router()
+const route = Router()
 
-app.use(routes)
+route.use('/users', userRoute)
+route.use('/auth', authRoute)
 
-export default app
+export default route
