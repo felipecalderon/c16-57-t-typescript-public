@@ -10,4 +10,5 @@ export const envs = {
   MONGO_NAME: env.get("MONGO_NAME").required().asString(),
   MONGO_USER: env.get("MONGO_USER").required().asString(),
   MONGO_PASS: env.get("MONGO_PASS").required().asString(),
+  SECRET_JTW: env.get("SECRET_JTW").required().asString(),
 };
