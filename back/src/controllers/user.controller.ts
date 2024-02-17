@@ -69,8 +69,7 @@ export const updateUserController = async (req: Request, res: Response) => {
     // PENDIENTE: validar datos antes de actualizar (middleware ¿?)
     const { userId } = req.query;
     const updatedUser = await updateUserDB(userId as string, req.body);
-    if (!updatedUser)
-      return res.status(404).json({ error: "Usuario no encontrado" });
+    if (!updatedUser) return res.status(404).json({ error: "Usuario no encontrado" });
     else return res.status(200).json(updatedUser);
   } catch (error) {
     console.error(error);
