@@ -20,7 +20,7 @@ export const newEventController = async (req: CustomRequest, res: Response) => {
   try {
     const { userId } = req;
     const event = await createEventDB({ ...req.body, organizerId: userId });
-    if (!event) res.status(404).json({ error: "Evento no encontrado" });
+    if (!event || event.errors) res.status(404).json({ error: "Evento no encontrado" , code: event.errors});
     else res.status(200).json(event);
     return event;
   } catch (error) {

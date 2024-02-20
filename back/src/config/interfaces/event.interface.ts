@@ -11,6 +11,7 @@ export enum eventStatus {
 export interface IEvent extends Document {
   title: string;
   description: string;
+  tags: string[] | string;
   organizerId: Schema.Types.ObjectId;
   startDate: Date;
   endDate: Date;

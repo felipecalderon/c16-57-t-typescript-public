@@ -37,6 +37,7 @@ const eventSchema = new Schema({
     type: Boolean,
     required: true,
   },
+  tags: [{type: String}],
   status: {
     type: String,
     enum: [SCHEDULED, PENDING, CONFIRMED, COMPLETED, CANCELLED],

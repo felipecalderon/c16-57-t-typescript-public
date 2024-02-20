@@ -30,8 +30,14 @@ export const createEventDB = async ({
   status,
   guestIds,
   expenses,
+  tags,
 }: IEvent) => {
   try {
+    
+    let tagJson = tags
+    if(typeof tags === 'string'){
+      tagJson = JSON.stringify(tags)
+    }
     const newEvent = Event.create({
       title,
       description,
@@ -43,6 +49,7 @@ export const createEventDB = async ({
       status,
       guestIds,
       expenses,
+      tags: tagJson,
     });
     return newEvent;
   } catch (error) {
