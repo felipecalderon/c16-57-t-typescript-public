@@ -22,10 +22,13 @@ const eventSchema = new Schema({
     type: String,
     required: true,
   },
+  private: {
+    type: Boolean,
+    required: true,
+  },
   status: {
     type: String,
     enum: [SCHEDULED, PENDING, CONFIRMED, COMPLETED, CANCELLED],
-    required: true,
     default: SCHEDULED,
   },
   guestIds: [String],
