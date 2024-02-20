@@ -5,6 +5,10 @@ const { Schema } = mongoose;
 const { SCHEDULED, PENDING, CONFIRMED, COMPLETED, CANCELLED } = eventStatus;
 
 const eventSchema = new Schema({
+  organizerId: { 
+    type: Schema.Types.ObjectId, 
+    ref: "User" 
+  },
   title: {
     type: String,
     required: true,
@@ -13,16 +17,23 @@ const eventSchema = new Schema({
     type: String,
     required: true,
   },
-  organizerId: { type: Schema.Types.ObjectId, ref: "User" },
-  dateTime: {
+  startDate: {
     type: Date,
     required: true,
+  },
+  endDate: {
+    type: Date,
+    required: true,
+  },
+  createdAt: {
+    type: Date,
+    default: new Date()
   },
   location: {
     type: String,
     required: true,
   },
-  private: {
+  isPrivate: {
     type: Boolean,
     required: true,
   },
@@ -31,8 +42,9 @@ const eventSchema = new Schema({
     enum: [SCHEDULED, PENDING, CONFIRMED, COMPLETED, CANCELLED],
     default: SCHEDULED,
   },
-  guestIds: [String],
+  guestIds: [{ type: Schema.Types.ObjectId }],
   expenses: [{ type: Schema.Types.ObjectId, ref: "Expense" }],
 });
 
-module.exports = mongoose.model<IEvent>("Event", eventSchema);
+const Event = mongoose.model<IEvent>("Event", eventSchema);
+export default Event
