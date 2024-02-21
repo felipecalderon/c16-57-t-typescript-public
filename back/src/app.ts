@@ -7,7 +7,7 @@ import routes from './routes/index'
 const app = express();
 //*Middlewares===============
 envs.NODE_ENV === "development" && app.use(morgan("dev"));
-app.use(cors({ origin: "*" }));
+app.use(cors({origin: 'http://localhost:3000', credentials: true}));
 
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
