@@ -29,6 +29,20 @@ import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import { Switch } from "@/components/ui/switch";
 
+
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu"
+
+
+type Checked = DropdownMenuCheckboxItemProps["checked"]
+
 const formSchema = z.object({
   title: z.string().min(3, { message: "Debe ser mayor a 3 caracteres" }),
   location: z.string().min(3, { message: "Debe ser mayor a 3 caracteres" }),
@@ -52,11 +66,14 @@ const Create = () => {
 
       description: "",
       isPrivate: false,
+      tags: [],
     },
   });
 
+  const [tags, setTags] = useState<string[]>([]);
   const handleSubmit = async (values: z.infer<typeof formSchema>) => {
     const organizerId = localStorage.getItem("token")!;
+    values.tags = tags;
 
     try {
       const response = await axios.post(
@@ -78,30 +95,7 @@ const Create = () => {
     }
   };
 
-  const [tags, setTags] = useState<string[]>([]);
-
-  const handleTagChange = (
-    event:
-      | React.ChangeEvent<HTMLTextAreaElement>
-      | React.KeyboardEvent<HTMLTextAreaElement>
-  ) => {
-    const inputValue = event.currentTarget.value;
-    const lastChar = inputValue.charAt(inputValue.length - 1);
-
-    if (
-      lastChar === "," ||
-      (event as React.KeyboardEvent<HTMLTextAreaElement>).key === "Enter"
-    ) {
-      // Eliminar la coma o el retorno de carro y agregar el tag al array
-      const newTag = inputValue.slice(0, -1).trim();
-      setTags((prevTags) => [...prevTags, newTag]);
-
-      // Limpiar el campo de entrada
-      event.currentTarget.value = "";
-      // O mejor aún, usar useState para limpiar el campo
-      // setInputValue('');
-    }
-  };
+  
 
   const [isNext, setIsNext] = useState(false);
 
@@ -292,31 +286,102 @@ const Create = () => {
                   name="tags"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Tags *</FormLabel>
+                      <FormLabel>Tags</FormLabel>
                       <FormControl>
-                        <Textarea
-                          placeholder="Añadir tags separados por comas"
-                          {...field}
-                          onChange={handleTagChange}
-                          onKeyDown={handleTagChange}
-                          className="h-8 w-full bg-slate-200"
-                        />
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button
+                              variant={"outline"}
+                              className="w-full bg-slate-200"
+                            >
+                              {"Selecciona tags"}
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent className="w-auto p-0 bg-slate-200"  align="center">
+                            
+                            <DropdownMenuCheckboxItem
+                              
+                              checked={tags.includes("Musica")}
+                              onCheckedChange={(checked) => {
+                                if (checked) {
+                                  setTags([...tags, "Musica"]);
+                                } else {
+                                  setTags(tags.filter((tag) => tag !== "Musica"));
+                                }
+                              }}
+                            >
+                              Musica
+                            </DropdownMenuCheckboxItem>
+                            <DropdownMenuCheckboxItem
+                              
+                              checked={tags.includes("Arte")}
+                              onCheckedChange={(checked) => {
+                                if (checked) {
+                                  setTags([...tags, "Arte"]);
+                                } else {
+                                  setTags(tags.filter((tag) => tag !== "Arte"));
+                                }
+                              }}
+                            >
+                              Arte
+                            </DropdownMenuCheckboxItem>
+                            <DropdownMenuCheckboxItem
+                              
+                              checked={tags.includes("Gastronomia")}
+                              onCheckedChange={(checked) => {
+                                if (checked) {
+                                  setTags([...tags, "Gastronomia"]);
+                                } else {
+                                  setTags(tags.filter((tag) => tag !== "Gastronomia"));
+                                }
+                              }}
+                            >
+                              Gastronomia
+                            </DropdownMenuCheckboxItem>
+                            <DropdownMenuCheckboxItem
+                              
+                              checked={tags.includes("Nocturna")}
+                              onCheckedChange={(checked) => {
+                                if (checked) {
+                                  setTags([...tags, "Nocturna"]);
+                                } else {
+                                  setTags(tags.filter((tag) => tag !== "Nocturna"));
+                                }
+                              }}
+                            >
+                              Nocturna
+                            </DropdownMenuCheckboxItem>
+                            <DropdownMenuCheckboxItem
+                              
+                              checked={tags.includes("Diurna")}
+                              onCheckedChange={(checked) => {
+                                if (checked) {
+                                  setTags([...tags, "Diurna"]);
+                                } else {
+                                  setTags(tags.filter((tag) => tag !== "Diurna"));
+                                }
+                              }}
+                            >
+                              Diurna
+                            </DropdownMenuCheckboxItem>
+
+
+                            
+                          </DropdownMenuContent>
+                        </DropdownMenu>
                       </FormControl>
-                      <div>
-                        {tags.map((tag, index) => (
-                          <span
-                            key={index}
-                            className="bg-blue-200 p-1 rounded-md m-1"
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
                       <FormMessage />
                     </FormItem>
+
                   )}
+
+
+
                 />
-              </div>
+                </div>
+                
+                
+
 
               <div
                 className={
@@ -358,6 +423,7 @@ const Create = () => {
                   Crear evento
                 </Button>
               </div>
+
             </form>
           </Form>
         </div>
