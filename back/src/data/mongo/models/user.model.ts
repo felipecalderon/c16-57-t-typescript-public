@@ -4,11 +4,9 @@ import { IUser } from "../../../config/interfaces/user.interface";
 const userSchema = new Schema({
   name: {
     type: String,
-    required: true,
   },
   age: {
     type: Number,
-    required: true,
   },
   email: {
     type: String,
@@ -25,7 +23,6 @@ const userSchema = new Schema({
   },
   location: {
     type: String,
-    required: true,
   },
   interestIds: [
     {

@@ -18,9 +18,6 @@ const formSchema = z
     email: z.string().email({ message: "Debe ser un email valido" }),
     password: z.string().min(3, { message: "Debe ser mayor a 3 caracteres" }),
     passwordConfirm: z.string(),
-    name: z.string(),
-    location: z.string(),
-    age: z.number(),
   })
   .refine(
     (data) => {
@@ -39,9 +36,6 @@ export default function RegisterForm() {
       email: "",
       password: "",
       passwordConfirm: "",
-      name: "",
-      location: "",
-      age: 18,
     },
   });
 
@@ -49,7 +43,6 @@ export default function RegisterForm() {
     try {
       const valuesToSend = {
         ...values,
-        age: Number(values.age),
       };
       const { data } = await axios.post('http://localhost:3001/api/auth/register', valuesToSend)
       console.log({ data });
@@ -64,60 +57,6 @@ export default function RegisterForm() {
         onSubmit={form.handleSubmit(handleSubmit)}
         className=" w-3/4 flex flex-col gap-4 mt-5"
       >
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <Input
-                  placeholder="Ingresa tu nombre"
-                  {...field}
-                  type="text"
-                  autoComplete="off"
-                  className="h-8 w-full"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="age"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <Input
-                  placeholder="¿Que edad tienes?"
-                  {...field}
-                  type="number"
-                  autoComplete="off"
-                  className="h-8 w-full"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="location"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <Input
-                  placeholder="Ubicación, ej: Santiago"
-                  {...field}
-                  type="text"
-                  autoComplete="off"
-                  className="h-8 w-full"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
         <FormField
           control={form.control}
           name="email"
