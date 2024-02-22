@@ -6,7 +6,7 @@ const RegisterPage = () => {
     <section className="flex justify-center items-center h-screen bg-gray-400">
       <div className="flex rounded-3xl bg-white">
         <div className="w-96 h-96 bg-white flex items-center flex-col pt-12 gap-3 rounded-l-3xl">
-          <h2 className="text-2xl font-bold text-teal-900">Hola de vuelta!</h2>
+          <h2 className="text-2xl font-bold text-teal-900">Crea tu cuenta de usuario</h2>
           <RegisterForm />
         </div>
         <div className="w-96 h-96 bg-green-400 rounded-3xl">

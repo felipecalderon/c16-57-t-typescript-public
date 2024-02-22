@@ -1,5 +1,4 @@
 'use client'
-import Link from "next/link";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -42,20 +41,17 @@ export default function RegisterForm() {
       passwordConfirm: "",
       name: "",
       location: "",
-      age: 0
+      age: 18,
     },
   });
 
   const handleSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const { data } = await axios.post('http://localhost:3001/api/auth/register', {
-        name: 'Pepito',
-        age: 22,
-        email: form.getValues('email'),
-        location: 'Santiago',
-        password: form.getValues('password')
-      }
-      )
+      const valuesToSend = {
+        ...values,
+        age: Number(values.age),
+      };
+      const { data } = await axios.post('http://localhost:3001/api/auth/register', valuesToSend)
       console.log({ data });
     } catch (error) {
       console.log(error);
@@ -70,6 +66,60 @@ export default function RegisterForm() {
       >
         <FormField
           control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input
+                  placeholder="Ingresa tu nombre"
+                  {...field}
+                  type="text"
+                  autoComplete="off"
+                  className="h-8 w-full"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="age"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input
+                  placeholder="¿Que edad tienes?"
+                  {...field}
+                  type="number"
+                  autoComplete="off"
+                  className="h-8 w-full"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="location"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input
+                  placeholder="Ubicación, ej: Santiago"
+                  {...field}
+                  type="text"
+                  autoComplete="off"
+                  className="h-8 w-full"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
           name="email"
           render={({ field }) => (
             <FormItem>
@@ -78,6 +128,7 @@ export default function RegisterForm() {
                   placeholder="Email"
                   {...field}
                   type="email"
+                  autoComplete="off"
                   className="h-8 w-full"
                 />
               </FormControl>
@@ -95,6 +146,7 @@ export default function RegisterForm() {
                   placeholder="Password"
                   {...field}
                   type="password"
+                  autoComplete="off"
                   className="h-8 w-full"
                 />
               </FormControl>
@@ -112,6 +164,7 @@ export default function RegisterForm() {
                   placeholder="Confirm Password"
                   {...field}
                   type="password"
+                  autoComplete="off"
                   className="h-8 w-full"
                 />
               </FormControl>
