@@ -37,9 +37,9 @@ const Register = () => {
     },
   });
 
-  const handleSubmit = (values: z.infer<typeof formSchema>) => {
+  const handleSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      fetch("/auth/register", {
+      await fetch("http://localhost:3001/api/auth/register", {
         method: "POST",
         body: JSON.stringify({ values }),
         headers: {
