@@ -24,7 +24,7 @@ const img =
 
 const UpcomingEvents = () => {
   return (
-    <section className="p-12 ">
+    <section className="pt-2 pl-12 pr-12 pb-2">
       <div className="flex justify-center items-center justify-between p-4">
         <h3 className="text-lg font-semibold pl-4">Tus proximas Salidas</h3>
         <Link
