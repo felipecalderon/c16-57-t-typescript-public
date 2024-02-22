@@ -13,6 +13,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import axios from "axios";
+import { redirect } from "next/dist/server/api-utils";
+import { useState } from "react";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Debe ser un email válido" }),
@@ -27,29 +29,40 @@ const Login = () => {
       password: "",
     },
   });
+  const [isValidate, setValidate] = useState(true);
+
+  const handleValidate = (value: boolean) => {
+    setValidate(value)
+  }
+
 
   const handleSubmit = async (values: z.infer<typeof formSchema>) => {
     //fetch post axios
     try {
 
-      const  response  = await axios.post(`http://localhost:3001/api/auth/login`, values,{withCredentials: true})
+      const  response  = await axios.post(`http://localhost:3001/api/auth/login`, values)
 
-      
-      console.log(response);
-      console.log("Respuesta:", response.data);
-
-      console.log("Estado:", response.status);
+      const token = response.headers['auth-token']
+      if(!token) throw new Error('Token no recibido')
+      localStorage.setItem('token', token)
       
 
-    
-
-
+      if(response.status === 200) {
+        console.log('Inicio de sesion exitoso')
+        window.location.href = 'http://localhost:3000/dashboard';
+      }
       
+
       
       
     } catch (error) {
-      console.log(error);
+      
+        console.log('Error al iniciar sesion')
+        handleValidate(false)
+      
     }
+
+
   };
 
   return (
@@ -96,6 +109,7 @@ const Login = () => {
                   </FormItem>
                 )}
               />
+               <div className={isValidate? 'hidden' :"text-red-500 text-center font-semibold text-sm"}>Credenciales incorrectas</div>
 
               <Button
                 className="h-8 w-2/4 rounded-full m-auto py-4 bg-blue-600 hover:bg-blue-700 shadow-md hover:shadow-gray-400"

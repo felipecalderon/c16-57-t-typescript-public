@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Form,
   FormControl,
@@ -29,16 +30,16 @@ import { format } from "date-fns";
 import { Switch } from "@/components/ui/switch";
 
 const formSchema = z.object({
-  nombre: z.string().min(3, { message: "Debe ser mayor a 3 caracteres" }),
-  lugar: z.string().min(3, { message: "Debe ser mayor a 3 caracteres" }),
-  fechaInicio: z.date({
+  title: z.string().min(3, { message: "Debe ser mayor a 3 caracteres" }),
+  location: z.string().min(3, { message: "Debe ser mayor a 3 caracteres" }),
+  startDate: z.date({
     required_error: "Una fecha es requerida",
   }),
-  fechaFin: z.date({
+  endDate: z.date({
     required_error: "Una fecha es requerida",
   }),
-  descripcion: z.string().min(3, { message: "Debe ser mayor a 3 caracteres" }),
-  esPrivado: z.boolean().default(false).optional(),
+  description: z.string().min(3, { message: "Debe ser mayor a 3 caracteres" }),
+  isPrivate: z.boolean().default(false).optional(),
   tags: z.array(z.string()).optional(),
 });
 
@@ -46,55 +47,88 @@ const Create = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      nombre: "",
-      lugar: "",
+      title: "",
+      location: "",
 
-      descripcion: "",
-      esPrivado: false,
-
+      description: "",
+      isPrivate: false,
     },
   });
 
   const handleSubmit = async (values: z.infer<typeof formSchema>) => {
-    //fetch post axios
-    console.log(values);
+    const organizerId = localStorage.getItem("token")!;
+
     try {
-      const  response = await axios.post(
+      const response = await axios.post(
         `http://localhost:3001/api/events/`,
-        values
+        values,
+        {
+          headers: {
+            "auth-token": organizerId,
+          },
+        }
       );
-      const data = response.headers;
-      console.log(data);
+      if (response.status === 200) {
+        console.log("Evento creado");
+        location.href = "http://localhost:3000/dashboard";
+      }
+      // Resto del código después de la solicitud POST
     } catch (error) {
-      console.log(values);
+      console.error("Error en la solicitud POST:", error);
     }
   };
+
+  const [tags, setTags] = useState<string[]>([]);
+
+  const handleTagChange = (
+    event:
+      | React.ChangeEvent<HTMLTextAreaElement>
+      | React.KeyboardEvent<HTMLTextAreaElement>
+  ) => {
+    const inputValue = event.currentTarget.value;
+    const lastChar = inputValue.charAt(inputValue.length - 1);
+
+    if (
+      lastChar === "," ||
+      (event as React.KeyboardEvent<HTMLTextAreaElement>).key === "Enter"
+    ) {
+      // Eliminar la coma o el retorno de carro y agregar el tag al array
+      const newTag = inputValue.slice(0, -1).trim();
+      setTags((prevTags) => [...prevTags, newTag]);
+
+      // Limpiar el campo de entrada
+      event.currentTarget.value = "";
+      // O mejor aún, usar useState para limpiar el campo
+      // setInputValue('');
+    }
+  };
+
   const [isNext, setIsNext] = useState(false);
 
   const handleNext = () => {
-    setIsNext(true);
+    setIsNext(!isNext);
   };
 
   return (
     <section className="flex justify-center items-center h-screen w-full  bg-white">
       <div className="flex rounded-3xl w-full  justify-center ">
         <div className="w-3/6 bg-white rounded-3xl content-center flex items-center border flex-col pt-12 gap-3 ">
-          
-            <h2 className="text-2xl font-bold text-teal-900">
-              Primero completemos estos campos
-            </h2>
-            <Form {...form}>
-              <form
-                onSubmit={form.handleSubmit(handleSubmit)}
-                className=" w-3/4 flex flex-col gap-4 mt-5"
-              >
-                <div className="flex justify-between ">
-                  <p className="text-2xl font-bold py-2 text-teal-900">
-                    Los campos con * son obligatorios
-                  </p>
+          <h2 className="text-2xl font-bold text-teal-900">
+            Primero completemos estos campos
+          </h2>
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(handleSubmit)}
+              className=" w-3/4 flex flex-col gap-4 mt-5"
+            >
+              <div className={isNext ? "w-full  hidden " : "w-full  unhidden"}>
+                <p className="text-2xl font-bold py-2 text-teal-900">
+                  Los campos con * son obligatorios
+                </p>
+                <div>
                   <FormField
                     control={form.control}
-                    name="esPrivado"
+                    name="isPrivate"
                     render={({ field }) => (
                       <FormItem className="flex flex-row items-center justify-between rounded-lg border w-max p-3 border-none space-y-0">
                         <FormControl>
@@ -114,7 +148,7 @@ const Create = () => {
 
                 <FormField
                   control={form.control}
-                  name="nombre"
+                  name="title"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Nombre de evento *</FormLabel>
@@ -123,7 +157,7 @@ const Create = () => {
                           placeholder="Nombre"
                           {...field}
                           type="text"
-                          className="h-8 w-full bg-slate-200"
+                          className="h-8 w-full my-4 bg-slate-200"
                         />
                       </FormControl>
                       <FormMessage />
@@ -132,7 +166,7 @@ const Create = () => {
                 />
                 <FormField
                   control={form.control}
-                  name="lugar"
+                  name="location"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Lugar del evento *</FormLabel>
@@ -141,17 +175,17 @@ const Create = () => {
                           placeholder="Lugar"
                           {...field}
                           type="text"
-                          className="h-8 w-full bg-slate-200"
+                          className="h-8 w-full my-4 bg-slate-200"
                         />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-                <div className="flex justify-between">
+                <div className="flex justify-between my-4">
                   <FormField
                     control={form.control}
-                    name="fechaInicio"
+                    name="startDate"
                     render={({ field }) => (
                       <FormItem className="flex flex-col ">
                         <FormLabel>Fecha de inicio *</FormLabel>
@@ -179,10 +213,7 @@ const Create = () => {
                               mode="single"
                               selected={field.value}
                               onSelect={field.onChange}
-                              disabled={(date) =>
-                                date > new Date() ||
-                                date < new Date("1900-01-01")
-                              }
+                              disabled={(date) => date < new Date()}
                               initialFocus
                             />
                           </PopoverContent>
@@ -196,7 +227,7 @@ const Create = () => {
                   />
                   <FormField
                     control={form.control}
-                    name="fechaFin"
+                    name="endDate"
                     render={({ field }) => (
                       <FormItem className="flex flex-col">
                         <FormLabel>Fecha fin de evento *</FormLabel>
@@ -224,10 +255,7 @@ const Create = () => {
                               mode="single"
                               selected={field.value}
                               onSelect={field.onChange}
-                              disabled={(date) =>
-                                date > new Date() ||
-                                date < new Date("1900-01-01")
-                              }
+                              disabled={(date) => date < new Date()}
                               initialFocus
                             />
                           </PopoverContent>
@@ -240,17 +268,18 @@ const Create = () => {
                     )}
                   />
                 </div>
+              </div>
+              <div className={!isNext ? "w-full  hidden " : "w-full  unhidden"}>
                 <FormField
                   control={form.control}
-                  name="descripcion"
+                  name="description"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Descripcion *</FormLabel>
                       <FormControl>
-                        <Input
+                        <Textarea
                           placeholder="Descripcion"
                           {...field}
-                          type="text"
                           className="h-8 w-full bg-slate-200"
                         />
                       </FormControl>
@@ -258,21 +287,81 @@ const Create = () => {
                     </FormItem>
                   )}
                 />
+                <FormField
+                  control={form.control}
+                  name="tags"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Tags *</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder="Añadir tags separados por comas"
+                          {...field}
+                          onChange={handleTagChange}
+                          onKeyDown={handleTagChange}
+                          className="h-8 w-full bg-slate-200"
+                        />
+                      </FormControl>
+                      <div>
+                        {tags.map((tag, index) => (
+                          <span
+                            key={index}
+                            className="bg-blue-200 p-1 rounded-md m-1"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
 
-
-                <div className="w-full  flex justify-end">
-                  <Button
-                    className="py-3  rounded-lg border w-max  my-3 flex  shadow-sm space-y-0"
-                    type="submit"
-                  >
-                    Crear evento
-                  </Button>
-                </div>
-              </form>
-            </Form>
-          </div>
+              <div
+                className={
+                  !isNext
+                    ? "w-full flex justify-end"
+                    : "w-full  flex justify-between"
+                }
+              >
+                <Button
+                  className={
+                    isNext
+                      ? "py-3  rounded-lg border w-max  my-3 flex  shadow-sm space-y-0"
+                      : "hidden"
+                  }
+                  onClick={handleNext}
+                  type="button"
+                >
+                  Atras
+                </Button>
+                <Button
+                  className={
+                    isNext
+                      ? "hidden"
+                      : "py-3  rounded-lg border w-max  my-3 flex  shadow-sm space-y-0 content-end"
+                  }
+                  onClick={handleNext}
+                  type="button"
+                >
+                  Siguiente
+                </Button>
+                <Button
+                  className={
+                    !isNext
+                      ? "hidden"
+                      : "py-3  rounded-lg border w-max  my-3 flex  shadow-sm space-y-0 "
+                  }
+                  type="submit"
+                >
+                  Crear evento
+                </Button>
+              </div>
+            </form>
+          </Form>
         </div>
-      
+      </div>
     </section>
   );
 };
