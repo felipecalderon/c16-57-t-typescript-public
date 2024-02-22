@@ -297,7 +297,7 @@ const Create = () => {
                               {"Selecciona tags"}
                             </Button>
                           </DropdownMenuTrigger>
-                          <DropdownMenuContent className="w-auto p-0 bg-slate-200"  align="center">
+                          <DropdownMenuContent className="w-auto p-0 "  align="center">
                             
                             <DropdownMenuCheckboxItem
                               
