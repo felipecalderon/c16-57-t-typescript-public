@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
-import { createEventDB, listEventsDB } from "../services/event.service";
+import { createEventDB, getEventDB, listEventsDB } from "../services/event.service";
+import { EventDocument } from "../data/mongo/models/event.model";
 
 interface CustomRequest extends Request {
   userId?: string;
@@ -7,8 +8,21 @@ interface CustomRequest extends Request {
 
 export const getEventsController = async (req: CustomRequest, res: Response) => {
   try {
+    const eventList: EventDocument[] = await listEventsDB();
+
+    if(eventList.length === 0) return res.status(404).json({ message: "No se encontraron eventos." });
+
+    return res.status(200).json(eventList);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Hubo un error al listar eventos" });
+  }
+};
+
+export const getOneEventController = async (req: CustomRequest, res: Response) => {
+  try {
     const { eventId } = req.params;
-    const eventList = await listEventsDB(eventId as string);
+    const eventList = await getEventDB(eventId as string);
     res.status(200).json(eventList);
   } catch (error) {
     console.error(error);
