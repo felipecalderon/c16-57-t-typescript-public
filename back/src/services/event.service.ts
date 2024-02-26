@@ -3,8 +3,10 @@ import Event, { EventDocument } from "../data/mongo/models/event.model";
 import { GetEventsQuery } from '../controllers/interfaces/event-controller.interface';
 
 interface FilterQuery {
-  location?: string;
-  tags?: string;
+  location?: RegExp;
+  tags?: {
+    '$all': string[]
+  };
 }
 
 export const listEventsDB = async (query: GetEventsQuery) => {
@@ -22,6 +24,7 @@ export const listEventsDB = async (query: GetEventsQuery) => {
 
   const maxOffset = (Math.ceil(allPages) - 1) * limit;
 
+  // Pagination
   if (isNaN(limit)) {
     throw new Error('"limit" debería ser un numero');
   }
@@ -34,7 +37,18 @@ export const listEventsDB = async (query: GetEventsQuery) => {
     offset = (page - 1) * limit;
   }
 
-  const events = await Event.find()
+  // Filter
+  filter.location = new RegExp(`${query.location || ''}`, 'i');
+
+  if ('tags' in query) {
+    filter.tags = {
+      '$all': query.tags?.split(',') || []
+    }
+  }
+
+  console.log(filter);
+
+  const events = await Event.find(filter)
     .skip(page <= allPages ? offset : maxOffset)
     .limit(limit)
 
