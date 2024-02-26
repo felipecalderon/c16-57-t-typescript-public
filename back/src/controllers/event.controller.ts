@@ -5,13 +5,20 @@ import { GetEventsQuery } from "./interfaces/event-controller.interface";
 
 interface CustomRequest extends Request {
   userId?: string;
+  query: {
+    page?: string;
+    limit?: string;
+    location?: string;
+    tags?: string;
+    current_user?:string;
+  }
 }
 
-export const getEventsController = async (req: Request<{}, {}, {}, GetEventsQuery>, res: Response) => {
+export const getEventsController = async (req: CustomRequest, res: Response) => {
   try {
     const { query } = req;
 
-    const eventList: EventDocument[] = await listEventsDB(query);
+    const eventList: EventDocument[] = await listEventsDB(query, req.userId);
 
     if (eventList.length === 0) return res.status(404).json({ message: "No se encontraron eventos." });
 

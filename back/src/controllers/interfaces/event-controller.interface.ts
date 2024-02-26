@@ -4,4 +4,6 @@ export interface GetEventsQuery {
     limit?: string;
     location?: string;
     tags?: string;
+    is_guest?:string;
+    is_admin?:string;
 }

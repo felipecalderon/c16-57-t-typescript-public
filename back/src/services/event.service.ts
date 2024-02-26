@@ -7,34 +7,30 @@ interface FilterQuery {
   tags?: {
     '$all': string[]
   };
+  $or?: Record<string, any>[];
 }
 
-export const listEventsDB = async (query: GetEventsQuery) => {
+export const listEventsDB = async (query: GetEventsQuery, userId: string = '') => {
 
   const filter: FilterQuery = {};
 
   // TODO: Redondear queries numéricas
+  // Pagination
   let limit: number = Number(query.limit || '5');
-  let offset: number = 0;
-
   const page: number = Number(query.page || '1');
+  const offset: number = (page > 1) ? ((page - 1) * limit) : 0;
 
   const eventsCounter = await Event.estimatedDocumentCount();
   const allPages = eventsCounter / limit;
 
   const maxOffset = (Math.ceil(allPages) - 1) * limit;
 
-  // Pagination
   if (isNaN(limit)) {
     throw new Error('"limit" debería ser un numero');
   }
 
   if (isNaN(page)) {
     throw new Error('"page" debería ser un numero');
-  }
-
-  if (page > 1) {
-    offset = (page - 1) * limit;
   }
 
   // Filter
@@ -46,7 +42,20 @@ export const listEventsDB = async (query: GetEventsQuery) => {
     }
   }
 
-  console.log(filter);
+  //TODO: Cambiar para que sea estricto is_admin xor is_guest
+  if (query.is_guest === 'true') {
+    filter.$or = filter.$or || [];
+    filter.$or.push({
+      guestIds: {
+        '$all': [userId],
+      }
+    });
+  }
+
+  if (query.is_admin === 'true') {
+    filter.$or = filter.$or || [];
+    filter.$or.push({ organizerId: userId });
+  }
 
   const events = await Event.find(filter)
     .skip(page <= allPages ? offset : maxOffset)
