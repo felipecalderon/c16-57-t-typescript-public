@@ -22,10 +22,6 @@ export const listEventsDB = async (query: GetEventsQuery) => {
 
   const maxOffset = (Math.ceil(allPages) - 1) * limit;
 
-  if (isNaN(offset)) {
-    throw new Error('"offset" debería ser un numero');
-  }
-
   if (isNaN(limit)) {
     throw new Error('"limit" debería ser un numero');
   }
