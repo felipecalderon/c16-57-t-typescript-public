@@ -22,10 +22,11 @@ import { MdOutlineMusicNote } from "react-icons/md";
 import { DialogOverlay } from "@radix-ui/react-dialog";
 import { evento } from "@/app/model/evento";
 import { useEffect, useState } from "react";
+import { Ieventos } from "@/lib/interfaces";
 
 const EventsPage =  () => {
   let eventoGuardado; // Declara la variable fuera de cualquier ámbito
-  const [eventos, setEventos] = useState([])
+  const [eventos, setEventos] = useState<Ieventos[]>([])
   
   eventoGuardado = {
     title: "Evento de prueba",
@@ -46,7 +47,11 @@ const EventsPage =  () => {
    
   const fnGetEvents = async () => {
     try {
-      const response =  await axios.get("http://localhost:3001/api/events/")
+      const response =  await axios.get("http://localhost:3001/api/events/", {
+        headers: {
+            "Auth-Token": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWNlYjBlNTIzNDFmYjYyOTZmYWE4NDYiLCJpYXQiOjE3MDkwNjc5MzIsImV4cCI6MTcwOTA3MTUzMn0.nJGBUn3ykV4zeq-Y6xtIGqee5mlAgNNnTiPAO-NscPI"
+        }
+      })
       setEventos(response.data)
     } catch (error) {
       console.error("Error al consultar el evento:", error);
@@ -60,9 +65,9 @@ const EventsPage =  () => {
   return (
     <>
     {
-        // eventos.map((evento, i) => {
-        //     return <li key={i}>{evento?.title}</li>
-        // })
+        eventos.map((evento, i) => {
+            return <li key={i}>{evento.title}</li>
+        })
     }
      <Dialog>
       <DialogTrigger asChild>
