@@ -26,7 +26,7 @@ import { DialogOverlay } from "@radix-ui/react-dialog";
 import { evento } from "@/app/model/evento";
 
 
-  export default function detalleDialog() {
+  export default function DetalleDialog() {
   let eventoGuardado: evento = new evento(
     "6123123",
     "Evento de prueba",
