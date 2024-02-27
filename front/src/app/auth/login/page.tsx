@@ -12,53 +12,58 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-
+import axios from "axios";
+import { redirect } from "next/dist/server/api-utils";
+import { useState } from "react";
 
 const formSchema = z.object({
-    email: z.string().email({ message: "Debe ser un email válido" }),
-    password: z.string().min(3, { message: "Debe ser mayor a 3 caracteres" }),
-  });
+  email: z.string().email({ message: "Debe ser un email válido" }),
+  password: z.string().min(3, { message: "Debe ser mayor a 3 caracteres" }),
+});
 
 const Login = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
     },
   });
+  const [isValidate, setValidate] = useState(true);
 
-   const handleSubmit = async (values: z.infer<typeof formSchema>) => {
-    
+  const handleValidate = (value: boolean) => {
+    setValidate(value)
+  }
+
+
+  const handleSubmit = async (values: z.infer<typeof formSchema>) => {
+    //fetch post axios
     try {
-      const response = await fetch('http://localhost:3001/api/auth/login', //Cambiar a Redux si es necesario y usar axios.
-       {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(values),
-    });
 
-    if (!response.ok) {
-   
-      console.error('Error en la solicitud:', response.statusText);
-      return;
+      const  response  = await axios.post(`http://localhost:3001/api/auth/login`, values)
+
+      const token = response.headers['auth-token']
+      if(!token) throw new Error('Token no recibido')
+      localStorage.setItem('token', token)
+      
+
+      if(response.status === 200) {
+        console.log('Inicio de sesion exitoso')
+        window.location.href = 'http://localhost:3000/dashboard';
+      }
+      
+
+      
+      
+    } catch (error) {
+      
+        console.log('Error al iniciar sesion')
+        handleValidate(false)
+      
     }
 
-    const data = await response.json();
-    console.log(data);
-    /* 
-     Aca agregar funcionalidad post-validacion del login.
-    */
-    
-    
 
-  } catch (error) {
-    console.error('Error en la solicitud:', error);
-  }
-};
-  
+  };
 
   return (
     <section className="flex justify-center items-center h-screen bg-gray-400">
@@ -104,14 +109,14 @@ const Login = () => {
                   </FormItem>
                 )}
               />
+               <div className={isValidate? 'hidden' :"text-red-500 text-center font-semibold text-sm"}>Credenciales incorrectas</div>
 
               <Button
                 className="h-8 w-2/4 rounded-full m-auto py-4 bg-blue-600 hover:bg-blue-700 shadow-md hover:shadow-gray-400"
-                type="submit" disabled={!form.formState.isValid}
+                type="submit"
+                disabled={!form.formState.isValid}
               >
-      
                 Iniciar sesion
-                
               </Button>
               <div className="mx-auto">
                 <Link
@@ -135,15 +140,13 @@ const Login = () => {
               </p>
             </div>
             <div>
-              
-                <Button asChild
-                  className="h-8  rounded-full  px-8 bg-green-500 hover:bg-green-600 shadow-md  hover:shadow-black-400 " 
-                  type="submit" 
-                >
-                  <Link href="/auth/register"> Registrarse</Link>
-                 
-                </Button>
-              
+              <Button
+                asChild
+                className="h-8  rounded-full  px-8 bg-green-500 hover:bg-green-600 shadow-md  hover:shadow-black-400 "
+                type="submit"
+              >
+                <Link href="/auth/register"> Registrarse</Link>
+              </Button>
             </div>
           </div>
         </div>
