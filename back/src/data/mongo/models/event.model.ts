@@ -1,6 +1,8 @@
-import mongoose from "mongoose";
+import mongoose, { HydratedDocument } from "mongoose";
 import { IEvent, eventStatus } from "../../../config/interfaces/event.interface";
 const { Schema } = mongoose;
+
+export type EventDocument = HydratedDocument<IEvent>;
 
 const { SCHEDULED, PENDING, CONFIRMED, COMPLETED, CANCELLED } = eventStatus;
 

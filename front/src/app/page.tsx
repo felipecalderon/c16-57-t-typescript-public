@@ -1,11 +1,19 @@
-import { Button } from "@/components/ui/button";
+import SearchBar from "@/components/SearchBar";
+import UpcomingEvents from "@/components/Upcomingevents";
+import Recommended from "@/components/Recommended";
+import Footer from "@/components/Footer";
+import TagsFilter from "@/components/TagsFilter";
 
-export default function HomePage(){
-    return (
-    <>
-        <Button className="bg-blue-100" variant={'destructive'}>
-            Click me
-        </Button>
-    </>
-    )
+const HomePage = () => {
+  return (
+  <>
+    <SearchBar/>
+    <TagsFilter/>
+    <UpcomingEvents/>
+    <Recommended/>
+    <Footer/>
+  </>
+  )
 }
+
+export default HomePage;
