@@ -5,7 +5,7 @@ import {
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
 import Link from "next/link";
-import { IoIosNotifications } from "react-icons/io";
+import NotificationsModal from "./NotificationsModal";
 
 const Header = () => {
   return (
@@ -23,18 +23,19 @@ const Header = () => {
               Grupos
             </NavigationMenuLink>
           </Link>
-          <Link href="/Perfil" legacyBehavior passHref>
+          <Link href="/profile" legacyBehavior passHref>
             <NavigationMenuLink className="text-green-500 hover:text-green-400 hover:underline">
               Perfil
             </NavigationMenuLink>
           </Link>
-          <Link href="/notificaciones" legacyBehavior passHref>
+          <Link href="" legacyBehavior passHref>
             <NavigationMenuLink className="text-lg text-green-500 hover:text-green-400">
-              <IoIosNotifications />
+              <NotificationsModal/>
             </NavigationMenuLink>
           </Link>
         </NavigationMenuList>
       </NavigationMenu>
+
     </div>
   );
 };
