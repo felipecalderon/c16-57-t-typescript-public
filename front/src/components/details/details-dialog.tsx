@@ -1,5 +1,4 @@
 'use client'
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -10,10 +9,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import axios from "axios";
 import { TfiLocationPin } from "react-icons/tfi";
-import { CalendarIcon, SunIcon } from "@radix-ui/react-icons";
-import { IoIosSunny, IoMdShare, IoMdSunny } from "react-icons/io";
+import { CalendarIcon  } from "@radix-ui/react-icons";
+import {  IoMdShare, IoMdSunny } from "react-icons/io";
 import { TiHeartOutline } from "react-icons/ti";
 import { FaPlus } from "react-icons/fa";
 import Image from "next/image";
@@ -24,41 +22,16 @@ import { LiaTheaterMasksSolid } from "react-icons/lia";
 import { MdOutlineMusicNote } from "react-icons/md";
 import { DialogOverlay } from "@radix-ui/react-dialog";
 import { evento } from "@/app/model/evento";
+import { Ieventos } from "@/lib/interfaces";
+import { useState } from "react";
 
 
-  export default function DetalleDialog() {
-  let eventoGuardado: evento = new evento(
-    "6123123",
-    "Evento de prueba",
-    "Descripción del evento de prueba",
-    "Ubicación del evento de prueba",
-    "Fecha de inicio del evento de prueba",
-    "Fecha de fin del evento de prueba",
-    "ASD123",
-
-
-
-  );
-
-  try {
-    const response =  axios.get("http://localhost:3001/api/events/65d78a84054d379e2e792a3d").then((res) => {
-      eventoGuardado = res.data;
-    });
-    console.log(eventoGuardado);
-  } catch (error) {
-    console.error("Error al consultar el evento:", error);
-  }
-
-
+  export default function DetalleDialog({event}: {event: Ieventos}) {
+  
 
   return (
     <>
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="outline">Ver evento</Button>
-      </DialogTrigger>
-      
-        
+    
       <DialogContent
         className="
        p-12 mx-auto max-w-5xl h-max border border-spacing-2
@@ -68,10 +41,10 @@ import { evento } from "@/app/model/evento";
         <section>
           <div className="flex justify-between ">
             <div className="space-y-4">
-              <DialogTitle className="text-3xl font-bold ">{eventoGuardado.title}</DialogTitle>
+              <DialogTitle className="text-3xl font-bold ">{event.title}</DialogTitle>
               <h2 className="text-center text-2xl font-semibold flex py-2">
                 <TfiLocationPin className="my-1" />
-                {eventoGuardado.location}
+                {event.location}
               </h2>
               
               <div className="flex w-max space-x-2 ">
@@ -79,14 +52,14 @@ import { evento } from "@/app/model/evento";
                   <CalendarIcon className=" size-6" />
                   <p className="text-center font-semibold text-lg px-2 ">
                     {" "}
-                    {eventoGuardado.startdate}
+                    {event.startDate}
                   </p>
                 </div>
                 <div className="flex">
                   <CalendarIcon className="size-6" />
                   <p className="text-center font-semibold text-lg px-2  ">
                     {" "}
-                    {eventoGuardado.enddate}
+                    {event.endDate}
                   </p>
                 </div>
               </div>
@@ -130,7 +103,7 @@ import { evento } from "@/app/model/evento";
           <div className="w-full border border-black bg-green-500 my-3 p-4 rounded-lg bg-opacity-65">
             <h2 className="text-2xl font-bold">Sobre el evento</h2>
             <p className="text-justify">
-            {eventoGuardado.description}
+            {event.description}
             </p>
           </div>
           <div className="w-full flex">
@@ -215,7 +188,7 @@ import { evento } from "@/app/model/evento";
           </div>
         </DialogFooter>
       </DialogContent>
-    </Dialog>
+    
     </>
   )
 

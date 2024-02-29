@@ -16,7 +16,7 @@ const SearchBar = () => {
       <input
         type="search"
         placeholder={"Busca tu proxima salida"}
-        className="relative w-96 p-2 pl-8 rounded-full col-start-3 col-span-3  outline outline-offset-5 outline-1 outline-green-600 focus:outline-none focus:ring-2 focus:ring-green-400 focus:shadow focus:shadow-lg focus:shadow-gray-500"
+        className="relative w-96 p-2 pl-8 rounded-full col-start-3 col-span-3  outline outline-offset-5 outline-1 outline-green-600 focus:outline-none focus:ring-2 focus:ring-green-400  focus:shadow-lg focus:shadow-gray-500"
         onChange={handleInput}
       />
       <CiSearch className="absolute top-24 left-80 rigth-80 text-lg text-gray-500 "/>

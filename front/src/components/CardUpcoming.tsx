@@ -15,12 +15,12 @@ export default function CardUpcoming({event, index}: {event: Ieventos, index: nu
   const [hora] = horaZona.split('.')
     return (
         <Card
-              className={`${index === 0 ? "w-2/3 rounded-l-xl rounded-r-none" : "w-1/3 rounded-r-xl rounded-l-none border "} bg-green-200 hover:shadow hover:shadow-lg hover:shadow-green-300 hover:border-green-400`}
+              className={`${index === 0 ? "w-2/3 rounded-l-xl rounded-r-none" : "w-1/3 rounded-r-xl rounded-l-none border "} bg-green-200  hover:shadow-lg hover:shadow-green-300 hover:border-green-400`}
             >
               <CardContent
                 className={`flex justify-center items-center flex-col rounded-b-xl ${index === 0 ? "rounded-tl-xl" : "rounded-tr-xl"} bg-white`}
               >
-                <div className=" w-full flex justify-center items-center justify-around">
+                <div className=" w-full flex  items-center justify-around">
                   <div>
                     <p className="block text-5xl w-full">Mar</p>
                     <p className="block text-5xl">20</p>
