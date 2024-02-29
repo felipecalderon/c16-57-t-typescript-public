@@ -38,6 +38,7 @@ const UpcomingEvents = () => {
         {events.map((event, index) => {
           return (
             <Card
+              key={index}
               className={`${index === 0 ? "w-2/3 rounded-l-xl rounded-r-none" : "w-1/3 rounded-r-xl rounded-l-none border "} bg-green-200 hover:shadow hover:shadow-lg hover:shadow-green-300 hover:border-green-400`}
             >
               <CardContent

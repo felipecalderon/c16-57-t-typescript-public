@@ -15,32 +15,32 @@ import {
 } from "@/components/ui/card";
 const events = [
   {
-    title: "Juntada en la casa de fulanito",
+    title: "Juntada en la casa de fulanito1",
     dateTime: "Tue Feb 20 2024 14:12:58 GMT-0300",
     description: "alguna descrpcion del evento",
   },
   {
-    title: "Juntada en la casa de fulanito",
+    title: "Juntada en la casa de fulanito2",
     dateTime: "Tue Feb 20 2024 14:12:58 GMT-0300",
     description: "alguna descripcion del evento",
   },
   {
-    title: "Juntada en la casa de fulanito",
+    title: "Juntada en la casa de fulanito3",
     dateTime: "Tue Feb 20 2024 14:12:58 GMT-0300",
     description: "alguna descrpcion del evento",
   },
   {
-    title: "Juntada en la casa de fulanito",
+    title: "Juntada en la casa de fulanito4",
     dateTime: "Tue Feb 20 2024 14:12:58 GMT-0300",
     description: "alguna descripcion del evento",
   },
   {
-    title: "Juntada en la casa de fulanito",
+    title: "Juntada en la casa de fulanito5",
     dateTime: "Tue Feb 20 2024 14:12:58 GMT-0300",
     description: "alguna descrpcion del evento",
   },
   {
-    title: "Juntada en la casa de fulanito",
+    title: "Juntada en la casa de fulanito6",
     dateTime: "Tue Feb 20 2024 14:12:58 GMT-0300",
     description: "alguna descripcion del evento",
   },
@@ -58,7 +58,7 @@ const Recommended = () => {
         <CarouselContent>
           {events.map((event) => {
             return (
-              <CarouselItem className="basis-1/3 pt-4 pb-4 m-4- ">
+              <CarouselItem className="basis-1/3 pt-4 pb-4 m-4- " key={event.title}>
                 <Card className="w-full rounded-xl hover:shadow hover:shadow-lg hover:shadow-green-300 hover:border-green-400 bg-green-200">
                   <CardContent className="flex justify-center items-center flex-col rounded-xl bg-white">
                     <div className=" w-full flex justify-center items-center justify-around">
