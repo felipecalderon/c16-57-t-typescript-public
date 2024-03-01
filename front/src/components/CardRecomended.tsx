@@ -12,14 +12,20 @@ import Image from "next/image";
 export default function CardRecomended({event}: {event: Ieventos}){
     const img =
   "https://static.vecteezy.com/system/resources/previews/005/988/959/non_2x/calendar-icon-free-vector.jpg";
-  const [fechaInicio, horaZona] = event.startDate.split('T')
-  const [hora] = horaZona.split('.')
+  const [fechaInicio, horaZona] = event.startDate.split('T');
+  const [dia, mes] = new Date(fechaInicio).toLocaleDateString('en-US', { day: 'numeric', month: 'short' }).split(' ');
+
+
+
+
+ 
     return (
-                <Card className="w-full rounded-xl hover:shadow hover:shadow-lg hover:shadow-green-300 hover:border-green-400 bg-green-200">
+                <Card className="w-full  rounded-xl  hover:shadow-lg hover:shadow-green-300 hover:border-green-400 bg-green-200">
                   <CardContent className="flex justify-center items-center flex-col rounded-xl bg-white">
-                    <div className=" w-full flex justify-center items-center justify-around">
+                    <div className=" w-full flex  items-center justify-around">
                       <div>
-                        <p className="block text-5xl w-full">{hora}</p>
+                        <p className="block text-5xl w-full">{dia}</p>
+                        <p className="block text-5xl">{mes}</p>
                       </div>
                       <Image src={img} alt="image-event" width={40} height={40} />
                     </div>
@@ -28,7 +34,7 @@ export default function CardRecomended({event}: {event: Ieventos}){
                     <CardTitle className="text-start text-xl">
                       {event.title}
                     </CardTitle>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 ">
                       <p className="text-sm">
                         {fechaInicio}
                       </p>

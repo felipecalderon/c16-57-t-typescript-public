@@ -112,7 +112,7 @@ export default function RegisterForm() {
           )}
         />
         <Button
-          className="h-8 w-3/4 rounded-10 m-auto p-auto bg-green-500 hover:bg-green-400 shadow-md hover:shadow-gray-400"
+          className="h-8 w-3/4 rounded-10 m-auto p-auto bg-[#207755] hover:bg-green-800 shadow-md hover:shadow-gray-400"
           type="submit"
         >
           Crear cuenta
