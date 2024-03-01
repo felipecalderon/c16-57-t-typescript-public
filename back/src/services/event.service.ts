@@ -114,3 +114,24 @@ export const createEventDB = async ({
     throw error;
   }
 };
+
+export const destroyEvent = async (eventId: string) => {
+  try {
+    const deleteEvent = await Event.deleteOne({
+      _id: eventId
+    })
+    return deleteEvent
+  } catch (error) {
+    throw error
+  }
+}
+
+export const getUserEvents = async (userId: string) => {
+  try {
+    const eventsAsOrganizer = await Event.find({ organizerId: userId });
+    const eventsAsGuest = await Event.find({ guestIds: userId });
+    return { eventsAsOrganizer, eventsAsGuest };
+  } catch (error) {
+    throw error;
+  }
+};
