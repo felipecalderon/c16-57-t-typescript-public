@@ -3,30 +3,17 @@ import {
   createEventDB,
   destroyEvent,
   getEventDB,
+  getUserEvents,
   listEventsDB,
 } from "../services/event.service";
-import { EventDocument } from "../data/mongo/models/event.model";
 
 interface CustomRequest extends Request {
   userId?: string;
-  query: {
-    page?: string;
-    limit?: string;
-    location?: string;
-    tags?: string;
-    current_user?: string;
-  };
 }
 
 export const getEventsController = async (req: CustomRequest, res: Response) => {
   try {
-    const { query } = req;
-
-    const eventList: EventDocument[] = await listEventsDB(query, req.userId);
-
-    if (eventList.length === 0)
-      return res.status(404).json({ message: "No se encontraron eventos." });
-
+    const eventList = await listEventsDB(req.query, req.userId);
     return res.status(200).json(eventList);
   } catch (error) {
     console.error(error);
@@ -50,9 +37,7 @@ export const newEventController = async (req: CustomRequest, res: Response) => {
     const { userId } = req;
     const event = await createEventDB({ ...req.body, organizerId: userId });
     if (!event || event.errors)
-      res
-        .status(404)
-        .json({ error: "Evento no encontrado", code: event.errors });
+      res.status(404).json({ error: "Evento no encontrado", code: event.errors });
     else res.status(200).json(event);
     return event;
   } catch (error) {
@@ -68,10 +53,8 @@ export const insertUserInEvent = async (req: CustomRequest, res: Response) => {
     if (!guestId) throw "Ingresa id Usuario para agregar un evento";
     const eventList = await getEventDB(eventId as string);
     if (!eventList) throw "No se encontró evento";
-    if (guestId === eventList.organizerId.toString())
-      throw "El usuario ya es organizador del evento";
-    if (eventList.guestIds.includes(guestId))
-      throw "El usuario ya es un invitado del evento";
+    if (guestId === eventList.organizerId.toString()) throw "El usuario ya es organizador del evento";
+    if (eventList.guestIds.includes(guestId)) throw "El usuario ya es un invitado del evento";
 
     eventList.guestIds.push(guestId);
     await eventList.save();
@@ -117,3 +100,13 @@ export const deleteEvent = async (req: Request, res: Response) => {
     res.status(500).json({ error });
   }
 }
+
+export const viewUserEvents = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+    const events = await getUserEvents(userId);
+    res.status(200).json(events);
+  } catch (error) {
+    res.status(500).json({ error });
+  }
+};

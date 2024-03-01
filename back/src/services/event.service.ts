@@ -1,14 +1,6 @@
 import { IEvent } from "../config/interfaces/event.interface";
-import Event, { EventDocument } from "../data/mongo/models/event.model";
-import { GetEventsQuery } from '../controllers/interfaces/event-controller.interface';
-
-interface FilterQuery {
-  location?: RegExp;
-  tags?: {
-    '$all': string[]
-  };
-  $or?: Record<string, any>[];
-}
+import { FilterQuery, GetEventsQuery } from "../config/interfaces/querys.interface";
+import Event from "../data/mongo/models/event.model";
 
 export const listEventsDB = async (query: GetEventsQuery, userId: string = '') => {
 
@@ -22,6 +14,9 @@ export const listEventsDB = async (query: GetEventsQuery, userId: string = '') =
 
   const eventsCounter = await Event.estimatedDocumentCount();
   const allPages = eventsCounter / limit;
+
+  //si no hay eventos se retorna array vacio
+  if(eventsCounter === 0) return []
 
   const maxOffset = (Math.ceil(allPages) - 1) * limit;
 
