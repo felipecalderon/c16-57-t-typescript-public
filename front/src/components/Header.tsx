@@ -9,8 +9,14 @@ import NotificationsModal from "./NotificationsModal";
 
 const Header = () => {
   return (
-    <div className="flex justify-center items-center justify-around p-2">
-      <h1 className="text-2xl font-bold text-green-500">MitiApp</h1>
+    <div className="flex items-center justify-end p-2 ">
+      <div className="w-48  absolute left-44 p-10 rounded-b-lg" style={{"background": "#1A7754"
+}}>
+        <div className="flex flex-col items-center pt-8">
+          <h1 className="text-3xl font-bold text-white">MITI</h1>
+          <h1 className="text-3xl font-bold text-white">MITI</h1>
+      </div>
+      </div>
       <NavigationMenu>
         <NavigationMenuList className="flex gap-10">
           <Link href="/misEventos" legacyBehavior passHref>
