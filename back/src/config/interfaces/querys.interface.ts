@@ -13,4 +13,5 @@ export interface GetEventsQuery {
   tags?: string;
   is_guest?: string;
   is_admin?: string;
+  userId?: string;
 }

@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import {
   createEventDB,
   destroyEvent,
+  findEventsByKeyword,
   getEventDB,
   getUserEvents,
   listEventsDB,
@@ -13,8 +14,11 @@ interface CustomRequest extends Request {
 
 export const getEventsController = async (req: CustomRequest, res: Response) => {
   try {
-    const eventList = await listEventsDB(req.query, req.userId);
-    return res.status(200).json(eventList);
+    const { q } = req.query;
+    let events;
+    if(q) events = await findEventsByKeyword(q as string);
+    else events = await listEventsDB(req.query);
+    return res.status(200).json(events);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Hubo un error al listar eventos" });
@@ -108,5 +112,15 @@ export const viewUserEvents = async (req: Request, res: Response) => {
     res.status(200).json(events);
   } catch (error) {
     res.status(500).json({ error });
+  }
+};
+
+export const searchEvents = async (req: Request, res: Response) => {
+  try {
+    const { q } = req.query;
+    const events = await findEventsByKeyword(q as string);
+    res.status(200).json(events);
+  } catch (error) {
+    res.status(500).json({ error: 'asdas' });
   }
 };
