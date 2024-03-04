@@ -1,65 +1,27 @@
 import { IEvent } from "../config/interfaces/event.interface";
-import Event, { EventDocument } from "../data/mongo/models/event.model";
-import { GetEventsQuery } from '../controllers/interfaces/event-controller.interface';
+import { GetEventsQuery } from "../config/interfaces/querys.interface";
+import Event from "../data/mongo/models/event.model";
+import { buildFilter, calculatePagination, validateQueryParams } from "../utils/filterEvents";
 
-interface FilterQuery {
-  location?: RegExp;
-  tags?: {
-    '$all': string[]
-  };
-  $or?: Record<string, any>[];
-}
+export const listEventsDB = async (query: GetEventsQuery) => {
 
-export const listEventsDB = async (query: GetEventsQuery, userId: string = '') => {
-
-  const filter: FilterQuery = {};
-
-  // TODO: Redondear queries numéricas
-  // Pagination
-  let limit: number = Number(query.limit || '5');
-  const page: number = Number(query.page || '1');
-  const offset: number = (page > 1) ? ((page - 1) * limit) : 0;
+  const { limit, page } = validateQueryParams(query);
 
   const eventsCounter = await Event.estimatedDocumentCount();
-  const allPages = eventsCounter / limit;
+  if (eventsCounter === 0) return [];
 
-  const maxOffset = (Math.ceil(allPages) - 1) * limit;
+  const { allPages } = await calculatePagination(limit, eventsCounter);
 
-  if (isNaN(limit)) {
-    throw new Error('"limit" debería ser un numero');
+  if (page > allPages) {
+    return []; 
   }
 
-  if (isNaN(page)) {
-    throw new Error('"page" debería ser un numero');
-  }
+  const filter = buildFilter(query);
 
-  // Filter
-  filter.location = new RegExp(`${query.location || ''}`, 'i');
-
-  if ('tags' in query) {
-    filter.tags = {
-      '$all': query.tags?.split(',') || []
-    }
-  }
-
-  //TODO: Cambiar para que sea estricto is_admin xor is_guest
-  if (query.is_guest === 'true') {
-    filter.$or = filter.$or || [];
-    filter.$or.push({
-      guestIds: {
-        '$all': [userId],
-      }
-    });
-  }
-
-  if (query.is_admin === 'true') {
-    filter.$or = filter.$or || [];
-    filter.$or.push({ organizerId: userId });
-  }
-
+  const offset = (page - 1) * limit;
   const events = await Event.find(filter)
-    .skip(page <= allPages ? offset : maxOffset)
-    .limit(limit)
+    .skip(page <= allPages ? offset : (allPages - 1) * limit)
+    .limit(limit);
 
   return events;
 }
@@ -111,6 +73,42 @@ export const createEventDB = async ({
     return newEvent;
   } catch (error) {
     console.log(error);
+    throw error;
+  }
+};
+
+export const destroyEvent = async (eventId: string) => {
+  try {
+    const deleteEvent = await Event.deleteOne({
+      _id: eventId
+    })
+    return deleteEvent
+  } catch (error) {
+    throw error
+  }
+}
+
+export const getUserEvents = async (userId: string) => {
+  try {
+    const eventsAsOrganizer = await Event.find({ organizerId: userId });
+    const eventsAsGuest = await Event.find({ guestIds: userId });
+    return { eventsAsOrganizer, eventsAsGuest };
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const findEventsByKeyword = async (searchTerm: string) => {
+  try {
+    const events = await Event.find({
+      $text: { $search: searchTerm }
+    },
+    { score: { $meta: "textScore" } }) // opcional, sirve para ordenar por relevancia
+    .sort({ score: { $meta: "textScore" } }); // opcional, similar al anterior score
+
+    return events;
+  } catch (error) {
+    console.error("Error searching events:", error);
     throw error;
   }
 };

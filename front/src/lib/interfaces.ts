@@ -1,16 +1,16 @@
 export interface Ieventos{
-    _id: String;
-    title: String;
-    description: String;
-    location: String;
-    startDate: String;
-    endDate: String;
-    createdAt: String;
+    _id: string;
+    title: string;
+    description: string;
+    location: string;
+    startDate: Date;
+    endDate: Date;
+    createdAt: Date;
     isPrivate: boolean;
     price?: number;
-    image?: String;
-    tags?: String[];
-    organizerId: String;
+    image?: string;
+    tags?: string[];
+    organizerId: string;
     status: string,
     guestIds: [],
     expenses: []
