@@ -49,5 +49,8 @@ const eventSchema = new Schema({
   expenses: [{ type: Schema.Types.ObjectId, ref: "Expense" }],
 });
 
+//indice para mejorar busquedas
+eventSchema.index({ title: 'text', description: 'text' });
+
 const Event = mongoose.model<IEvent>("Event", eventSchema);
 export default Event
