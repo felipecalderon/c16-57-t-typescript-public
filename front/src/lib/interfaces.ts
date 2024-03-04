@@ -3,9 +3,9 @@ export interface Ieventos{
     title: string;
     description: string;
     location: string;
-    startDate: string;
-    endDate: string;
-    createdAt: string;
+    startDate: Date;
+    endDate: Date;
+    createdAt: Date;
     isPrivate: boolean;
     price?: number;
     image?: string;
