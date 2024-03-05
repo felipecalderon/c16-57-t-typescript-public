@@ -12,11 +12,12 @@ import { GiPayMoney } from "react-icons/gi";
 import { FaRegCheckCircle } from "react-icons/fa";
 import { PiConfettiDuotone } from "react-icons/pi";
 
+
 const NotificationsModal = () => {
   return (
     <Dialog>
       <DialogTrigger>
-        <IoIosNotifications />
+        <IoIosNotifications className="fill-black size-11 mt-1 bg-white p-2 shadow-xl rounded-full"/>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

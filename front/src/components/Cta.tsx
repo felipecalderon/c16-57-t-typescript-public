@@ -5,7 +5,7 @@ import { Button } from "./ui/button";
 const Cta = () => {
   return (
     <div
-      className="h-full w-full flex flex-col items-center mx-auto place-content-center justify-center p-4"
+      className="h-96 w-full flex flex-col items-center mx-auto place-content-center justify-center p-4"
       style={{ backgroundColor: "#F4D977" }}
     >
       <h2 className="text-4xl font-bold text-center">Encontra lo que buscas</h2>
