@@ -49,7 +49,7 @@ const Login = () => {
 
       if(response.status === 200) {
         console.log('Inicio de sesion exitoso')
-        window.location.href = 'http://localhost:3000/dashboard';
+        window.location.href = 'http://localhost:3000/';
       }
       
 
