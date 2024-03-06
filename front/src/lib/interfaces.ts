@@ -9,7 +9,7 @@ export interface Ieventos{
     isPrivate: boolean;
     price?: number;
     image?: string;
-    tags?: string[];
+    tags: string[];
     organizerId: string;
     status: string,
     guestIds: [],

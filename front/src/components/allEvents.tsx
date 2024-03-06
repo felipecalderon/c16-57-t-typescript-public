@@ -5,32 +5,8 @@ import { Card, CardContent, CardDescription, CardTitle } from "./ui/card";
 import { Ieventos } from "@/lib/interfaces";
 import { useEffect, useState } from "react";
 
-const AllEvents = () => {
-  const [events, setEvents] = useState<Ieventos[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<boolean>(false);
-
-  const fnGetEvents = async () => {
-    try {
-      const response = await axios.get("http://localhost:3001/api/events/", {
-        headers: {
-          "Auth-Token": localStorage.getItem("token"),
-        },
-      });
-      setEvents(response.data);
-      setLoading(false);
-    } catch (error) {
-      console.error("Error al consultar el evento:", error);
-      setError(true);
-    }
-  };
-  useEffect(() => {
-    fnGetEvents();
-  }, []);
-  if (loading) return <p>Cargando...</p>;
-  if (error) return <p>Hubo un error al cargar los eventos</p>;
-
-  return (
+const AllEvents = ({events}: {events: Ieventos[]}) => {
+  if (events) return (
     <div className="w-full h-full my-10">
       <h1
         className="

@@ -6,10 +6,19 @@ import {
 } from "@/components/ui/navigation-menu";
 import Link from "next/link";
 import NotificationsModal from "./NotificationsModal";
+import { storeEvents } from "@/stores/events.store";
+import { useEffect } from "react";
+import axios from "axios";
 const Header = () => {
+  const { setEvents, getEvents  } = storeEvents()
   const profileimg = "https://previews.123rf.com/images/aprillrain/aprillrain2212/aprillrain221200638/196354278-imagen-de-caricatura-de-un-astronauta-sentado-en-una-luna-ilustraci%C3%B3n-de-alta-calidad.jpg"
-  
+  const token = typeof window !== 'undefined' ? window.localStorage.getItem("token") : undefined
 
+  useEffect(() => {
+    if(token){
+      getEvents(token, '', 8)
+    }
+  }, [])
 
   return (
     <div className="flex items-center justify-end p-2 absolute right-0 w-full ">
