@@ -104,22 +104,26 @@ const Create = () => {
   };
 
   return (
+    
     <section className="flex justify-center items-center h-screen w-full  bg-white">
       <div className="flex rounded-3xl w-full  justify-center ">
         <div className="w-3/6 bg-white rounded-3xl content-center flex items-center border flex-col pt-12 gap-3 ">
-          <h2 className="text-2xl font-bold text-teal-900">
+          <div></div>
+          <Form {...form}>
+          <h1 className={!isNext?"font-semibold text-pretty text-5xl font-serif":"font-semibold text-pretty text-4xl font-serif"}>{!isNext?"ORGANICEMOS ALGO":"AHORA, AGREGÁ LA DESCRIPCIÓN"}</h1>
+          <h2 className="text-2xl font-semibold text-teal-900">
             Primero completemos estos campos
           </h2>
-          <Form {...form}>
             <form
               onSubmit={form.handleSubmit(handleSubmit)}
               className=" w-3/4 flex flex-col gap-4 mt-5"
             >
               <div className={isNext ? "w-full  hidden " : "w-full  unhidden"}>
+                
+                <div className="flex justify-between">
                 <p className="text-2xl font-bold py-2 text-teal-900">
                   Los campos con * son obligatorios
                 </p>
-                <div>
                   <FormField
                     control={form.control}
                     name="isPrivate"
@@ -151,7 +155,7 @@ const Create = () => {
                           placeholder="Nombre"
                           {...field}
                           type="text"
-                          className="h-8 w-full my-4 bg-slate-200"
+                          className="h-12 w-full my-4 text-lg bg-slate-200"
                         />
                       </FormControl>
                       <FormMessage />
@@ -169,7 +173,7 @@ const Create = () => {
                           placeholder="Lugar"
                           {...field}
                           type="text"
-                          className="h-8 w-full my-4 bg-slate-200"
+                          className="h-12 w-full my-4 text-lg bg-slate-200"
                         />
                       </FormControl>
                       <FormMessage />
@@ -189,7 +193,7 @@ const Create = () => {
                               <Button
                                 variant={"outline"}
                                 className={cn(
-                                  "w-[240px] pl-3 text-left font-normal",
+                                  "w-[240px] pl-3 text-left h-12 font-normal",
                                   !field.value && "text-muted-foreground"
                                 )}
                               >
@@ -231,7 +235,7 @@ const Create = () => {
                               <Button
                                 variant={"outline"}
                                 className={cn(
-                                  "w-[240px] pl-3 text-left font-normal",
+                                  "w-[240px] pl-3 h-12 text-left font-normal",
                                   !field.value && "text-muted-foreground"
                                 )}
                               >
@@ -274,7 +278,7 @@ const Create = () => {
                         <Textarea
                           placeholder="Descripcion"
                           {...field}
-                          className="h-8 w-full bg-slate-200"
+                          className="h-12 w-full my-4 text-lg bg-slate-200"
                         />
                       </FormControl>
                       <FormMessage />
@@ -292,7 +296,7 @@ const Create = () => {
                           <DropdownMenuTrigger asChild>
                             <Button
                               variant={"outline"}
-                              className="w-full bg-slate-200"
+                              className="h-12 w-full my-4 text-lg bg-slate-200"
                             >
                               {"Selecciona tags"}
                             </Button>
@@ -393,7 +397,7 @@ const Create = () => {
                 <Button
                   className={
                     isNext
-                      ? "py-3  rounded-lg border w-max  my-3 flex  shadow-sm space-y-0"
+                      ? "py-3  rounded-lg border w-max  my-3 h-12 flex  shadow-sm space-y-0"
                       : "hidden"
                   }
                   onClick={handleNext}
@@ -405,7 +409,7 @@ const Create = () => {
                   className={
                     isNext
                       ? "hidden"
-                      : "py-3  rounded-lg border w-max  my-3 flex  shadow-sm space-y-0 content-end"
+                      : "py-3  rounded-lg border w-max  my-3 flex h-12 shadow-sm space-y-0 content-end"
                   }
                   onClick={handleNext}
                   type="button"
@@ -416,9 +420,13 @@ const Create = () => {
                   className={
                     !isNext
                       ? "hidden"
-                      : "py-3  rounded-lg border w-max  my-3 flex  shadow-sm space-y-0 "
+                      : "py-3  rounded-lg border w-max  my-3 flex h-12 shadow-sm space-y-0 "
                   }
                   type="submit"
+                  style={
+                    {backgroundColor:"#1A7754"}
+                  }
+
                 >
                   Crear evento
                 </Button>

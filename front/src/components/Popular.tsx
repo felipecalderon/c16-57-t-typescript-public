@@ -30,7 +30,6 @@ const Popular = () => {
         <div className="w-full mx-auto">
         <div className="text-left block w-full  pl-12 ">
             <h2 className="pl-6 text-2xl font-extrabold">POPULARES</h2>
-            <h4 className="pl-6 text-xl font-semibold">Estos son los eventos mas populares</h4>
         </div>
         <div className="grid grid-cols-2 gap-4 max-xl:grid-cols-1">
             {

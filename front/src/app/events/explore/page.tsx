@@ -12,10 +12,26 @@ import CustomButton from "@/components/customButton";
 
 const Explore = () => {
 
+  const CollectionTag= [
+    {name: "Diurnas", icon: CiSun},
+    {name: "Nocturnas", icon: BsMoonStars},
+    {name: "Musicales", icon: MdOutlineMusicNote},
+    {name: "Teatrales", icon: LiaTheaterMasksSolid},
+    {name: "Gastronomia", icon: GiKnifeFork}
+  ]
+  const [selected, setSelected] = useState("");
+
+  const handleSelect = (name: string) => {
+    setSelected(name);
+  };
+
+  
+
+
 
   return (
     <div className="flex h-screen w-full px-2">
-      <div className="w-1/12 h-full flex justify-center ">
+      <div className="w-1/12 h-full flex justify-center my-40">
         <div className="fixed flex flex-col items-center justify-between">
           <div className="h-1/6 my-4">
             </div>
@@ -27,7 +43,7 @@ const Explore = () => {
 
         </div>
       </div>
-      <div className="w-5/6 h-full">
+      <div className="w-11/12 h-full my-40">
         <Popular />
         <AllEvents />
       </div>

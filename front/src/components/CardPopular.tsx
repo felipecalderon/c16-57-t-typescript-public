@@ -17,18 +17,18 @@ import { Ieventos } from "@/lib/interfaces";
 const CardRecomended = ({ event }: { event: Ieventos }) => {
   return (
     <Card
-      className="w-full lg:h-max min-h-72  rounded-xl shadow-lg shadow-slate-500 hover:shadow-xl p-1"
-      style={{ backgroundColor: "#F4D977" }}
+      className="w-full lg:h-max min-h-72 text-white rounded-xl shadow-lg shadow-slate-500 hover:shadow-xl p-2"
+      style={{ backgroundColor: "#E65731" }}
     >
       <CardContent className="flex flex-nowrap max-xl:flex-col">
-        <div className=" p-2 lg:min-w-5/12 sm:w-full">
+        <div className=" px-2 lg:min-w-5/12 sm:w-full">
           <img
             src={
               event.image?.toString() ||
               "https://img.freepik.com/foto-gratis/encuentro-amigos-restaurante_23-2148395439.jpg"
             }
             alt="evento"
-            className="min-h-64 min-w-48 rounded-t-xl object-cover sm:w-full object-center  "
+            className="min-h-72 h-72 min-w-48 w-48 rounded-t-xl object-cover sm:w-full object-center  "
           />
         </div>
         <div className="lg:min-w-7/12  sm:w-full  p-2">

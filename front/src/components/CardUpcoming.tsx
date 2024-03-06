@@ -18,7 +18,7 @@ export default function CardUpcoming({
 }) {
   const img =
   "https://img.freepik.com/foto-gratis/encuentro-amigos-restaurante_23-2148395439.jpg";
-  const [fechaInicio, horaZona] = event.startDate.split('T');
+  const fechaInicio = event.startDate;
   const [mes, dia] = new Date(fechaInicio).toLocaleDateString('en-US', { day: 'numeric', month: 'long' }).split(' ');
   const profileimg = "https://www.kindpng.com/picc/m/78-785827_user-profile-avatar"
 

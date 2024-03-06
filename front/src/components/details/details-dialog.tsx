@@ -24,10 +24,13 @@ import { DialogOverlay } from "@radix-ui/react-dialog";
 import { evento } from "@/app/model/evento";
 import { Ieventos } from "@/lib/interfaces";
 import { useState } from "react";
+import { dateFormat } from "@/lib/date-format";
 
 
   export default function DetalleDialog({event}: {event: Ieventos}) {
-  
+    const fechaInicio = dateFormat(new Date(event.startDate)).fecha;
+    const fechaFinal = dateFormat(new Date(event.endDate)).fecha;
+
 
   return (
     <>
@@ -52,14 +55,14 @@ import { useState } from "react";
                   <CalendarIcon className=" size-6" />
                   <p className="text-center font-semibold text-lg px-2 ">
                     {" "}
-                    {event.startDate}
+                    {fechaInicio}
                   </p>
                 </div>
                 <div className="flex">
                   <CalendarIcon className="size-6" />
                   <p className="text-center font-semibold text-lg px-2  ">
                     {" "}
-                    {event.endDate}
+                    {fechaFinal}
                   </p>
                 </div>
               </div>
