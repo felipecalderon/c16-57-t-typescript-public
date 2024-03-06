@@ -39,6 +39,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu"
+import { DialogContent } from "@/components/ui/dialog";
 
 
 type Checked = DropdownMenuCheckboxItemProps["checked"]
@@ -104,6 +105,8 @@ const Create = () => {
   };
 
   return (
+    
+<DialogContent className="p-12 mx-auto w-full h-max border border-spacing-2">
     
     <section className="flex justify-center items-center h-screen w-full  bg-white">
       <div className="flex rounded-3xl w-full  justify-center ">
@@ -437,6 +440,8 @@ const Create = () => {
         </div>
       </div>
     </section>
+    </DialogContent>
+    
   );
 };
 
