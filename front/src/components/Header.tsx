@@ -8,15 +8,18 @@ import Link from "next/link";
 import NotificationsModal from "./NotificationsModal";
 import { storeEvents } from "@/stores/events.store";
 import { useEffect } from "react";
-import axios from "axios";
+import { storeUser } from "@/stores/user.store";
+
 const Header = () => {
-  const { setEvents, getEvents  } = storeEvents()
+  const { getEvents } = storeEvents()
+  const { user, getUserData } = storeUser()
   const profileimg = "https://previews.123rf.com/images/aprillrain/aprillrain2212/aprillrain221200638/196354278-imagen-de-caricatura-de-un-astronauta-sentado-en-una-luna-ilustraci%C3%B3n-de-alta-calidad.jpg"
   const token = typeof window !== 'undefined' ? window.localStorage.getItem("token") : undefined
 
   useEffect(() => {
-    if(token){
-      getEvents(token, '', 8)
+    if (token) {
+      getEvents(token, '', 20)
+      getUserData(token)
     }
   }, [])
 
@@ -43,16 +46,19 @@ const Header = () => {
               GRUPOS
             </NavigationMenuLink>
           </Link>
-          <Link href="/profile" legacyBehavior passHref>
-            <NavigationMenuLink className=" hover:underline font-serif font-extrabold  text-lg">
-              <img
-                src={profileimg}
-                alt="profile"
-                className="h-12 w-12 rounded-full"
+          {
+            user && user.image
+            && <Link href="/profile" legacyBehavior passHref>
+              <NavigationMenuLink className=" hover:underline font-serif font-extrabold  text-lg">
+
+                <img
+                  src={profileimg}
+                  alt="profile"
+                  className="h-12 w-12 rounded-full"
                 />
-                
-            </NavigationMenuLink>
-          </Link>
+              </NavigationMenuLink>
+            </Link>
+          }
           <Link href="" legacyBehavior passHref>
             <NavigationMenuLink className="text-lg text-green-500 hover:text-green-400">
               <NotificationsModal />

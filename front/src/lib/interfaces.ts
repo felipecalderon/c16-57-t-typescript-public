@@ -15,3 +15,16 @@ export interface Ieventos{
     guestIds: [],
     expenses: []
 }
+
+export interface IUser {
+    name: string;
+    age: number;
+    email: string;
+    password: string;
+    image: string;
+    signUpDate: Date;
+    location: string;
+    interestIds?: string[];
+    events?: string[];
+    expenses?: string[];
+  }

@@ -10,66 +10,71 @@ import CustomButton from "@/components/customButton";
 import { storeEvents } from "@/stores/events.store";
 import { Input } from "@/components/ui/input";
 import { useDebounce } from "@/hooks/debounce";
+import { MdOutlineMusicNote } from "react-icons/md";
+import { LiaTheaterMasksSolid } from "react-icons/lia";
 
 const Explore = () => {
   const [selected, setSelected] = useState(false);
   const { events, getEvents } = storeEvents()
   const token = typeof window !== 'undefined' ? window.localStorage.getItem("token") : undefined
-  const [isHovered, setIsHovered] = useState(false);
   const [query, setQuery] = useState('')
   const debouncedQuery = useDebounce(query, 500);
+  const [tag, setTag] = useState('')
+
   const handleSelect = (e: MouseEvent<HTMLButtonElement>) => {
-    console.log(e.currentTarget.name);
     setSelected(!selected)
+    setTag(e.currentTarget.name)
   };
+
+  const CollectionTag = [
+    {name: "Diurnas", icon: CiSun, select: false, handleSelect: handleSelect},
+    {name: "Nocturnas", icon: BsMoonStars, select: false, handleSelect: handleSelect},
+    {name: "Musicales", icon: MdOutlineMusicNote, select: false, handleSelect: handleSelect},
+    {name: "Teatrales", icon: LiaTheaterMasksSolid, select: false, handleSelect: handleSelect},
+    {name: "Gastronomia", icon: GiKnifeFork, select: false, handleSelect: handleSelect}
+  ]
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value) 
   }
 
   useEffect(() => {
+    if(!selected) setTag('') 
+  }, [selected])
+
+  useEffect(() => {
     if(token){
-      getEvents(token, query, 8)
+      getEvents(token, query, 20)
     }
   }, [debouncedQuery])
 
-  const filterEvents = events.filter(({tags}) => tags.includes(query))
-  
+  const filterEvents = events.filter(({tags}) => {
+    if(tag !== ''){
+      return tags.includes(tag)
+    } else return true
+  })
+
   return (
     <div className="flex h-screen w-full px-2">
       <div className="w-1/12 h-full flex justify-center my-40">
         <div className="fixed flex flex-col items-center justify-between">
           <div className="h-1/6 my-4">
           </div>
-          <div className="h-1/6 my-4 w-max">
-            <button
-              onClick={(e) => handleSelect(e)}
-              name='Diurnas'
-              className={`border p-2 ${!selected ? 'bg-gray-300' : 'bg-[#1A7754]'} w-max rounded-full shadow-lg cursor-pointer`}
-              onMouseEnter={() => setIsHovered(true)}
-              onMouseLeave={() => setIsHovered(false)}
-            >
-              <CiSun className="size-16 pointer-events-none" />
-            </button>
-            {isHovered && (
-              <div className="bg-gray-800 w-auto text-white rounded 
-          text-center p-2 mx-auto 
-
-          ">
-                Diurnas
-              </div>
-            )}
-
-
-          </div>
-          <CustomButton icon={BsMoonStars} text="Nocturnas" selected={selected} handleSelect={handleSelect} />
-
+          {
+            CollectionTag.map((elemento) => <CustomButton 
+              key={elemento.name} 
+              icon={elemento.icon} 
+              text={elemento.name} 
+              selected={elemento.name === tag} 
+              handleSelect={elemento.handleSelect} 
+            />)
+          }
         </div>
       </div>
       <div className="w-11/12 h-full my-40">
       <Input placeholder="Buscar eventos" type='text' value={query} onChange={handleInputChange} />
         {/* <Popular /> */}
-        <AllEvents events={events} />
+        <AllEvents events={filterEvents} />
       </div>
     </div>
   );
