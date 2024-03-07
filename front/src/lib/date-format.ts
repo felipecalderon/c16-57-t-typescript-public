@@ -1,6 +1,7 @@
 interface DateInterface {
   fecha: string;
   hora: string;
+  mes?: string
 }
 
 export const dateFormat = (inputFecha: Date): DateInterface => {
@@ -22,7 +23,9 @@ export const dateFormat = (inputFecha: Date): DateInterface => {
 
   const hora = fechaformat.toLocaleTimeString("es-ES", timeOptions);
   const fecha = fechaformat.toLocaleDateString("es-ES", dateOptions); 
-  return { fecha, hora } as DateInterface;
+  const mes = new Intl.DateTimeFormat("es-ES", { month: "long" }).format(fechaformat);
+
+  return { fecha, hora, mes } as DateInterface;
 };
 
 export const combineDate = ({ fecha, hora }: DateInterface): string => {
@@ -34,5 +37,6 @@ export const combineDate = ({ fecha, hora }: DateInterface): string => {
   const date = new Date(year, month - 1, day, hours, minutes);
 
   // objeto Date a formato ISO 8601 (de mongodb)
-  return date.toISOString();
+  const isoDate = date.toISOString()
+  return isoDate
 };

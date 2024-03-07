@@ -39,6 +39,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu"
+import { DialogContent } from "@/components/ui/dialog";
+import { combineDate, dateFormat } from "@/lib/date-format";
 
 
 type Checked = DropdownMenuCheckboxItemProps["checked"]
@@ -46,6 +48,8 @@ type Checked = DropdownMenuCheckboxItemProps["checked"]
 const formSchema = z.object({
   title: z.string().min(3, { message: "Debe ser mayor a 3 caracteres" }),
   location: z.string().min(3, { message: "Debe ser mayor a 3 caracteres" }),
+  horaInicio: z.string(),
+  horaFin: z.string(),
   startDate: z.date({
     required_error: "Una fecha es requerida",
   }),
@@ -63,7 +67,9 @@ const Create = () => {
     defaultValues: {
       title: "",
       location: "",
-
+      startDate: new Date(),
+      horaInicio: '',
+      horaFin: '',
       description: "",
       isPrivate: false,
       tags: [],
@@ -74,11 +80,17 @@ const Create = () => {
   const handleSubmit = async (values: z.infer<typeof formSchema>) => {
     const organizerId = localStorage.getItem("token")!;
     values.tags = tags;
+    
+    const formatoFechaInicio = dateFormat(values.startDate).fecha
+    const formatoFechaFin = dateFormat(values.endDate).fecha
+
+    const startDate = combineDate({fecha: formatoFechaInicio, hora: values.horaInicio})
+    const endDate = combineDate({fecha: formatoFechaFin, hora: values.horaFin})
 
     try {
       const response = await axios.post(
         `http://localhost:3001/api/events/`,
-        values,
+        {...values, startDate, endDate},
         {
           headers: {
             "auth-token": organizerId,
@@ -86,7 +98,7 @@ const Create = () => {
         }
       );
       if (response.status === 200) {
-        console.log("Evento creado");
+        console.log("Evento creado", response);
         location.href = "http://localhost:3000/dashboard";
       }
       // Resto del código después de la solicitud POST
@@ -104,6 +116,9 @@ const Create = () => {
   };
 
   return (
+    
+// <DialogContent className="p-12 mx-auto w-full h-max border border-spacing-2">
+    
     <section className="flex justify-center items-center h-screen w-full  bg-white">
       <div className="flex rounded-3xl w-full  justify-center ">
         <div className="w-3/6 bg-white rounded-3xl content-center flex items-center border flex-col pt-12 gap-3 ">
@@ -221,17 +236,35 @@ const Create = () => {
                   />
                   <FormField
                     control={form.control}
-                    name="endDate"
+                    name="horaInicio"
                     render={({ field }) => (
                       <FormItem className="flex flex-col">
-                        <FormLabel>Fecha fin de evento *</FormLabel>
+                        <FormLabel>Hora inicio de evento *</FormLabel>
+                        <Input
+                          placeholder="Nombre"
+                          {...field}
+                          type="time"
+                          className="h-12 w-full my-4 text-lg bg-slate-200"
+                        />
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div className="flex justify-between my-4">
+                  <FormField
+                    control={form.control}
+                    name="endDate"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-col ">
+                        <FormLabel>Fecha de fin *</FormLabel>
                         <Popover>
                           <PopoverTrigger asChild>
                             <FormControl className="bg-slate-200">
                               <Button
                                 variant={"outline"}
                                 className={cn(
-                                  "w-[240px] pl-3 text-left font-normal",
+                                  "w-[240px] pl-3 text-left h-12 font-normal",
                                   !field.value && "text-muted-foreground"
                                 )}
                               >
@@ -244,7 +277,7 @@ const Create = () => {
                               </Button>
                             </FormControl>
                           </PopoverTrigger>
-                          <PopoverContent className="w-auto p-0" align="start">
+                          <PopoverContent className="w-auto p-0 " align="start">
                             <Calendar
                               mode="single"
                               selected={field.value}
@@ -257,6 +290,22 @@ const Create = () => {
                         {/* <FormDescription>
                       Your date of birth is used to calculate your age.
                     </FormDescription> */}
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="horaFin"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-col">
+                        <FormLabel>Hora fin de evento *</FormLabel>
+                        <Input
+                          placeholder="15:00"
+                          {...field}
+                          type="time"
+                          className="h-12 w-full my-4 text-lg bg-slate-200"
+                        />
                         <FormMessage />
                       </FormItem>
                     )}
@@ -429,6 +478,8 @@ const Create = () => {
         </div>
       </div>
     </section>
+    // </DialogContent>
+    
   );
 };
 

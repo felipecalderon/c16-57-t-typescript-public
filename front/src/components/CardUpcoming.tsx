@@ -5,6 +5,7 @@ import {
   CardFooter,
   CardTitle,
 } from "@/components/ui/card";
+import { dateFormat } from "@/lib/date-format";
 
 import { Ieventos } from "@/lib/interfaces";
 import Image from "next/image";
