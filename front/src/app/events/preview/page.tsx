@@ -17,6 +17,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { CiTrash } from "react-icons/ci";
+import { CiSettings } from "react-icons/ci";
 
 const Preview = () => {
   const [event, setEvent] = useState({} as Ieventos);
@@ -69,6 +71,14 @@ const Preview = () => {
         </h4>
       </div>
       <div className="w-10/12  h-full p-12">
+        <div className="flex justify-end gap-5">
+        <button className=" rounded-full p-2">
+          <CiSettings className="text-4xl border rounded-full"/>
+        </button>
+        <button className="rounded-full p-2 ">
+          <CiTrash className="text-4xl border rounded-full" />
+        </button>
+        </div>
         <div className="bg-[#F5CAD7] w-full rounded-lg shadow-2xl shadow-slate-500 my-4 p-1">
           <div className="w-full bg-[#F5CAD7] h-max">
             <img
@@ -120,56 +130,55 @@ const Preview = () => {
                 Password
               </TabsTrigger>
             </TabsList>
-            <TabsContent value="account" className="w-full bg-[#F5CAD7] rounded-b-lg rounded-tr-lg">
-              <Card className=" bg-[#F5CAD7] ">
-                <CardHeader>
-                  <CardTitle>Account</CardTitle>
-                  <CardDescription>
-                    Make changes to your account here. Click save when you're
-                    done.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-2">
-                  <div className="space-y-1">
-                    <Label htmlFor="name">Name</Label>
-                    <Input id="name" defaultValue="Pedro Duarte" />
-                  </div>
-                  <div className="space-y-1">
-                    <Label htmlFor="username">Username</Label>
-                    <Input id="username" defaultValue="@peduarte" />
-                  </div>
+            <TabsContent
+              value="account"
+              className="w-full bg-[#F5CAD7] rounded-b-lg rounded-tr-lg"
+            >
+              <Card className=" bg-[#F5CAD7] h-52 ">
+                <CardContent className="space-y-2 flex justify-center items-center flex-col h-full py-8">
+                  
+                  <Button className="w-1/4 bg-[#1A7754] text-white">
+                    + Agregar personas
+                  </Button>
+                  
                 </CardContent>
-                <CardFooter>
-                  <Button>Save changes</Button>
-                </CardFooter>
               </Card>
             </TabsContent>
-            <TabsContent value="password" className="w-full bg-[#F5CAD7] rounded-b-lg rounded-tr-lg">
-              <Card className=" bg-[#F5CAD7]">
-                <CardHeader>
-                  <CardTitle>Password</CardTitle>
-                  <CardDescription>
-                    Change your password here. After saving, you'll be logged
-                    out.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-2">
-                  <div className="space-y-1">
-                    <Label htmlFor="current">Current password</Label>
-                    <Input id="current" type="password" />
+            <TabsContent
+              value="password"
+              className="w-full bg-[#F5CAD7] rounded-b-lg rounded-tr-lg"
+            >
+              <Card className=" bg-[#F5CAD7] h-52">
+                <CardContent className="space-y-2 flex justify-center items-center flex-col py-8">
+                  <div className="space-y-1 w-1/2  mb-2">
+                    <Input
+                      id="current"
+                      type="text"
+                      placeholder="Descripcion"
+                      className="font-bolder text-lg"
+                    />
                   </div>
-                  <div className="space-y-1">
-                    <Label htmlFor="new">New password</Label>
-                    <Input id="new" type="password" />
+                  <div className="space-y-1  w-1/2">
+                    <Input
+                      id="new"
+                      type="number"
+                      step="0.01"
+                      placeholder="0,00"
+                      className="font-bolder text-lg"
+                      max="10000 "
+                    />
                   </div>
+                  <Button className="mt-4">Guardar</Button>
                 </CardContent>
-                <CardFooter>
-                  <Button>Save password</Button>
-                </CardFooter>
               </Card>
             </TabsContent>
           </Tabs>
         </div>
+        <div className="w-full py-8 flex justify-center items-center">
+          <Button className="w-1/4 text-white">
+            Publicar evento
+          </Button>
+          </div>
       </div>
     </div>
   );
