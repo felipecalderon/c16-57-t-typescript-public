@@ -178,5 +178,4 @@ export default function DetalleDialog({ event }: { event: Ieventos }) {
 
     </>
   )
-
 };

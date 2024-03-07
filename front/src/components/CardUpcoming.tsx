@@ -1,10 +1,10 @@
-  import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardTitle,
-  } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardTitle,
+} from "@/components/ui/card";
 
 import { Ieventos } from "@/lib/interfaces";
 import Image from "next/image";

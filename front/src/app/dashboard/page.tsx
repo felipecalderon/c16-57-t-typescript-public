@@ -6,6 +6,8 @@ import TagsFilter from '@/components/TagsFilter'
 import UpcomingEvents from '@/components/Upcomingevents'
 import axios from 'axios'
 import React, { useEffect } from 'react'
+import Cta from '@/components/Cta'
+import ModalCrear from '@/components/modalCrear'
 
 export default function DashboardPage() {
     const fetchEvents = async () => {
@@ -30,8 +32,9 @@ export default function DashboardPage() {
     }, [])
     return (
         <>
-            <SearchBar />
-            <TagsFilter />
+           
+            <Cta/>
+            <ModalCrear />
             <UpcomingEvents />
             <Recommended />
             <Footer />

@@ -4,6 +4,7 @@ import UpcomingEvents from "@/components/Upcomingevents";
 import Recommended from "@/components/Recommended";
 import Footer from "@/components/Footer";
 import TagsFilter from "@/components/TagsFilter";
+import Cta from "@/components/Cta";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";

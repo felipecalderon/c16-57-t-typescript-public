@@ -8,6 +8,10 @@ const userSchema = new Schema({
   age: {
     type: Number,
   },
+  image: {
+    type: String,
+    default: 'https://previews.123rf.com/images/aprillrain/aprillrain2212/aprillrain221200638/196354278-imagen-de-caricatura-de-un-astronauta-sentado-en-una-luna-ilustraci%C3%B3n-de-alta-calidad.jpg'
+  },
   email: {
     type: String,
     unique: true,

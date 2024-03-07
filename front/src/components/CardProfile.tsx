@@ -1,9 +1,12 @@
 "use client";
+import { storeUser } from "@/stores/user.store";
 import { FaUserFriends } from "react-icons/fa";
 
 const CardProfile = () => {
+  const { user } = storeUser()
   const img =
     "https://images.unsplash.com/photo-1466112928291-0903b80a9466?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHByb2ZpbGV8ZW58MHx8MHx8fDA%3D";
+  if(!user) return <p>Cargando..</p>
   return (
     <div className="w-full p-2 mt-8 flex justify-center items-center gap-5 h-96">
       <div className="w-1/4 h-80 rounded-bl-xl ">
@@ -13,9 +16,9 @@ const CardProfile = () => {
             alt="image-profile"
             className="w-full h-60 rounded-l-xl"
           />
-          <div className="h-16  pl-4 pt-2 bg-[#E65731] text-[#F6F6F6]">
-            <h3 className="text-xl font-bold">Santiago, Yuma</h3>
-            <p className="font-semibold">30 Años, Buenos Aires</p>
+          <div className="h-16  pl-4 pt-2 bg-blue-100 ">
+            <h3 className="text-xl font-bold">{user.name}</h3>
+            <p className="font-semibold">{user.age} Años, de {user.location}.</p>
           </div>
         </article>
       </div>
