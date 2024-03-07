@@ -1,46 +1,30 @@
 'use client'
 import { Button } from "@/components/ui/button";
 import {
-  Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
-  DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { TfiLocationPin } from "react-icons/tfi";
-import { CalendarIcon  } from "@radix-ui/react-icons";
-import {  IoMdShare, IoMdSunny } from "react-icons/io";
+import { CalendarIcon } from "@radix-ui/react-icons";
+import { IoMdShare } from "react-icons/io";
 import { TiHeartOutline } from "react-icons/ti";
 import { FaPlus } from "react-icons/fa";
-import Image from "next/image";
 import { GiKnifeFork } from "react-icons/gi";
 import { BsMoonStars } from "react-icons/bs";
 import { CiSun } from "react-icons/ci";
 import { LiaTheaterMasksSolid } from "react-icons/lia";
 import { MdOutlineMusicNote } from "react-icons/md";
 import { DialogOverlay } from "@radix-ui/react-dialog";
-import { evento } from "@/app/model/evento";
 import { Ieventos } from "@/lib/interfaces";
-import { useState } from "react";
-import { dateFormat } from "@/lib/date-format";
 
-
-  export default function DetalleDialog({event}: {event: Ieventos}) {
-    const fechaInicio = dateFormat(new Date(event.startDate)).fecha;
-    const fechaFinal = dateFormat(new Date(event.endDate)).fecha;
-
-
+export default function DetalleDialog({ event }: { event: Ieventos }) {
   return (
     <>
-    
       <DialogContent
         className="
-       p-12 mx-auto max-w-5xl h-max border border-spacing-2
-      "
+       p-12 mx-auto max-w-5xl h-max border border-spacing-2"
       >
-        
         <section>
           <div className="flex justify-between ">
             <div className="space-y-4">
@@ -49,20 +33,20 @@ import { dateFormat } from "@/lib/date-format";
                 <TfiLocationPin className="my-1" />
                 {event.location}
               </h2>
-              
+
               <div className="flex w-max space-x-2 ">
                 <div className="flex">
                   <CalendarIcon className=" size-6" />
                   <p className="text-center font-semibold text-lg px-2 ">
                     {" "}
-                    {fechaInicio}
+                    fecha inicio
                   </p>
                 </div>
                 <div className="flex">
                   <CalendarIcon className="size-6" />
                   <p className="text-center font-semibold text-lg px-2  ">
                     {" "}
-                    {fechaFinal}
+                    fecha fin
                   </p>
                 </div>
               </div>
@@ -106,7 +90,7 @@ import { dateFormat } from "@/lib/date-format";
           <div className="w-full border border-black bg-green-500 my-3 p-4 rounded-lg bg-opacity-65">
             <h2 className="text-2xl font-bold">Sobre el evento</h2>
             <p className="text-justify">
-            {event.description}
+              {event.description}
             </p>
           </div>
           <div className="w-full flex">
@@ -191,8 +175,7 @@ import { dateFormat } from "@/lib/date-format";
           </div>
         </DialogFooter>
       </DialogContent>
-    
+
     </>
   )
-
 };
