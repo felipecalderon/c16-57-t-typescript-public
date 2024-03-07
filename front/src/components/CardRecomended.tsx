@@ -1,43 +1,40 @@
 "use client"
-  import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardTitle,
-  } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardTitle,
+} from "@/components/ui/card";
+import { dateFormat } from "@/lib/date-format";
 
 import { Ieventos } from "@/lib/interfaces";
 import Image from "next/image";
 
-export default function CardRecomended({event}: {event: Ieventos}){
-    const img =
-  "https://static.vecteezy.com/system/resources/previews/005/988/959/non_2x/calendar-icon-free-vector.jpg";
+export default function CardRecomended({ event }: { event: Ieventos }) {
+  const {fecha, hora, mes} = dateFormat(event.startDate)
+  const img =
+    "https://static.vecteezy.com/system/resources/previews/005/988/959/non_2x/calendar-icon-free-vector.jpg";
 
-    return (
-                <Card className="w-full  rounded-xl  hover:shadow-lg hover:shadow-green-300 hover:border-green-400 bg-green-200">
-                  <CardContent className="flex justify-center items-center flex-col rounded-xl bg-white">
-                    <div className=" w-full flex  items-center justify-around">
-                      <div>
-                        <p className="block text-5xl w-full">dia</p>
-                        <p className="block text-5xl">mes</p>
-                      </div>
-                      <Image src={img} alt="image-event" width={40} height={40} />
-                    </div>
-                  </CardContent>
-                  <CardFooter className="flex flex-col items-start gap-3 bg-green-200 pt-2 rounded-b-xl">
-                    <CardTitle className="text-start text-xl">
-                      {event.title}
-                    </CardTitle>
-                    <div className="flex items-center gap-2 ">
-                      <p className="text-sm">
-                        fecha
-                      </p>
-                      <CardDescription className="text-sm">
-                        {event.description}
-                      </CardDescription>
-                    </div>
-                  </CardFooter>
-                </Card>
-    )
+  return (
+    <Card className="w-full h-max  rounded-xl shadow-lg shadow-slate-500 hover:shadow-xl  bg-white" >
+      <CardContent className="flex justify-center items-center flex-col rounded-t-xl min-h-64 min-w-48" style={{ backgroundImage: `url(${event.image ? event.image : img})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+      </CardContent>
+      <CardFooter className="flex  justify-start  py-2 rounded-b-xl">
+        <div className=" ">
+          <img src="https://previews.123rf.com/images/aprillrain/aprillrain2212/aprillrain221200638/196354278-imagen-de-caricatura-de-un-astronauta-sentado-en-una-luna-ilustración-de-alta-calidad.jpg" alt="profile" className="h-16 w-16 rounded-full" />
+        </div>
+        <div className="flex flex-col items-center "
+        ><CardTitle className="text-start text-2xl">
+            {event.title}
+            <br />
+            {mes}
+          </CardTitle>
+          <CardDescription className="text-sm">
+            asdasd
+          </CardDescription>
+        </div>
+      </CardFooter>
+    </Card>
+  )
 }
