@@ -20,6 +20,11 @@ export const listEventsDB = async (query: GetEventsQuery) => {
 
   const offset = (page - 1) * limit;
   const events = await Event.find(filter)
+    .populate('organizerId') 
+    .populate({
+      path: 'guestIds', 
+      model: 'User' 
+    })
     .skip(page <= allPages ? offset : (allPages - 1) * limit)
     .limit(limit);
 
