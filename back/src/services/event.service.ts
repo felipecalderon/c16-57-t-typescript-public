@@ -43,7 +43,10 @@ export const getEventDB = async (id: string) => {
       .populate({
         path: 'guestIds', 
         model: 'User' 
-      })
+      }).populate({
+        path: 'expenses', 
+        model: 'Expense' 
+      });
     if (!event) return null;
     return event;
   } catch (error) {

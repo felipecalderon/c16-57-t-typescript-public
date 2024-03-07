@@ -28,3 +28,11 @@ export interface IUser {
     events?: string[];
     expenses?: string[];
   }
+
+export interface IExpense {
+    _id: string;
+    description: string;
+    amount: number;
+    eventId: string;
+    userId: string;
+  }

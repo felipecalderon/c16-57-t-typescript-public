@@ -15,6 +15,11 @@ const Header = () => {
   const { user, getUserData } = storeUser()
   const profileimg = "https://previews.123rf.com/images/aprillrain/aprillrain2212/aprillrain221200638/196354278-imagen-de-caricatura-de-un-astronauta-sentado-en-una-luna-ilustraci%C3%B3n-de-alta-calidad.jpg"
   const token = typeof window !== 'undefined' ? window.localStorage.getItem("token") : undefined
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    window.location.href = "/auth";
+  }
+  
 
   useEffect(() => {
     if (token) {
@@ -36,16 +41,12 @@ const Header = () => {
       </div>
       <NavigationMenu>
         <NavigationMenuList className="flex gap-10">
-          <Link href="/misEventos" legacyBehavior passHref>
+          <Link href="/events/explore" legacyBehavior passHref>
             <NavigationMenuLink className=" hover:underline font-serif font-extrabold  text-lg">
               MIS EVENTOS
             </NavigationMenuLink>
           </Link>
-          <Link href="/grupos" legacyBehavior passHref>
-            <NavigationMenuLink className=" hover:underline font-serif font-extrabold  text-lg">
-              GRUPOS
-            </NavigationMenuLink>
-          </Link>
+          
           {
             user && user.image
             && <Link href="/profile" legacyBehavior passHref>
@@ -64,6 +65,16 @@ const Header = () => {
               <NotificationsModal />
             </NavigationMenuLink>
           </Link>
+          
+            {token ? (
+              <Link href="#" legacyBehavior passHref>
+            <NavigationMenuLink  onClick={handleLogout} className="
+            border rounded-lg bg-[#1A7754] text-lg text-white px-4 py-2 hover:bg-[#F6F6F6] hover:text-[#1A7754]
+            ">
+              CERRAR SESION
+            </NavigationMenuLink>
+            </Link>):""}
+          
         </NavigationMenuList>
       </NavigationMenu>
     </div>

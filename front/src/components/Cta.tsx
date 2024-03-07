@@ -1,6 +1,7 @@
 import React from "react";
 import SearchBar from "./SearchBar";
 import { Button } from "./ui/button";
+import Link from "next/link";
 
 const Cta = () => {
   return (
@@ -13,11 +14,8 @@ const Cta = () => {
       <div className="w-full py-10">
         <SearchBar />
       </div>
-      {
-        //button explorar eventos y que te lleve a la pagina de eventos
-      }
       <div className="w-full flex items-center justify-center">
-        <Button className="w-64 text-xl p-2">Explorar Eventos</Button>
+        <Button className="w-64 text-xl p-2"> <Link href="/events/explore" >Explorar Eventos</Link></Button>
       </div>
     </div>
   );

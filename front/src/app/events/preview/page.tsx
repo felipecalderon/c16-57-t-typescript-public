@@ -19,6 +19,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CiTrash } from "react-icons/ci";
 import { CiSettings } from "react-icons/ci";
+import { IExpense } from "@/lib/interfaces";
 
 const Preview = () => {
   const [event, setEvent] = useState({} as Ieventos);
@@ -26,6 +27,26 @@ const Preview = () => {
 
   const handleSelect = () => {
     setSelected(!selected);
+  };
+
+  const handleSubmit = async (e : React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    let gasto = {
+      userId : event.organizerId,
+      description: e.currentTarget.description.value,
+      amount: e.currentTarget.amount.value,
+      eventId: event._id,
+
+    };
+    try {
+      const response = await axios.post('http://localhost:3001/api/expense', gasto);
+      e.currentTarget.description.value = '';
+      e.currentTarget.amount.value = '';
+      
+      fnGetEvent();
+    } catch (error) {
+      console.error('Error making POST request', error);
+    }
   };
 
   const fnGetEvent = async () => {
@@ -105,7 +126,7 @@ const Preview = () => {
         </div>
 
         <div className="w-full">
-          <Tabs defaultValue="account" className=" w-full">
+          <Tabs defaultValue="invitar" className=" w-full">
             <TabsList className="grid w-[400px] grid-cols-2">
               <TabsTrigger
                 className={
@@ -114,9 +135,9 @@ const Preview = () => {
                     : "bg-black rounded-tl-lg p-2 text-white"
                 }
                 onClick={handleSelect}
-                value="account"
+                value="invitar"
               >
-                Account
+                Invite
               </TabsTrigger>
               <TabsTrigger
                 className={
@@ -125,13 +146,13 @@ const Preview = () => {
                     : "bg-black rounded-tr-lg p-2 text-white"
                 }
                 onClick={handleSelect}
-                value="password"
+                value="gastos"
               >
-                Password
+                Gastos
               </TabsTrigger>
             </TabsList>
             <TabsContent
-              value="account"
+              value="invitar"
               className="w-full bg-[#F5CAD7] rounded-b-lg rounded-tr-lg"
             >
               <Card className=" bg-[#F5CAD7] h-52 ">
@@ -145,17 +166,30 @@ const Preview = () => {
               </Card>
             </TabsContent>
             <TabsContent
-              value="password"
+              value="gastos"
               className="w-full bg-[#F5CAD7] rounded-b-lg rounded-tr-lg"
             >
               <Card className=" bg-[#F5CAD7] h-52">
-                <CardContent className="space-y-2 flex justify-center items-center flex-col py-8">
+                <CardContent className="space-y-2 flex justify-center items-center  py-8 flex-col">
+                
+                <div className="w-full h-1/2 overflow-y-auto">
+                  {event.expenses?.map((gasto:IExpense) => (
+                    <div className="w-full flex items-center px-5">
+                      <span className="
+                      font-bold text-md rounded-lg border p-2
+                      ">{gasto.description}</span>
+
+                    </div>
+                  ))}
+                </div>
+                <form onSubmit={handleSubmit} className="w-full flex gap-5">
                   <div className="space-y-1 w-1/2  mb-2">
                     <Input
                       id="current"
                       type="text"
                       placeholder="Descripcion"
                       className="font-bolder text-lg"
+                      name="description"
                     />
                   </div>
                   <div className="space-y-1  w-1/2">
@@ -166,16 +200,21 @@ const Preview = () => {
                       placeholder="0,00"
                       className="font-bolder text-lg"
                       max="10000 "
+                      name="amount"
                     />
                   </div>
-                  <Button className="mt-4">Guardar</Button>
+                  <div className="w-1/3 space-y-1">
+                  <Button className="" >Guardar</Button>
+                  </div>
+                </form>
                 </CardContent>
+
               </Card>
             </TabsContent>
           </Tabs>
         </div>
         <div className="w-full py-8 flex justify-center items-center">
-          <Button className="w-1/4 text-white">
+          <Button className="w-1/4 text-white" >
             Publicar evento
           </Button>
           </div>

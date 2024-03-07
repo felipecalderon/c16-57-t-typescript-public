@@ -34,7 +34,6 @@ export default function DashboardPage() {
         <>
            
             <Cta/>
-            <ModalCrear />
             <UpcomingEvents />
             <Recommended />
             <Footer />

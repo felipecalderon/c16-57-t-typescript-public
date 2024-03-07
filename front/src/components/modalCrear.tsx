@@ -11,10 +11,10 @@ const ModalCrear = () => {
             Open
             </button>
         </DialogTrigger>
-        <DialogContent>
+        
             
             <Create />
-        </DialogContent>
+        
     </Dialog>
     
   )
