@@ -11,8 +11,6 @@ import Image from "next/image";
 
 export default function CardUpcoming({event, index}: {event: Ieventos, index: number}){
   const img = "https://static.vecteezy.com/system/resources/previews/005/988/959/non_2x/calendar-icon-free-vector.jpg";
-  const [fechaInicio, horaZona] = event.startDate.split('T')
-  const [hora] = horaZona.split('.')
     return (
         <Card
               className={`${index === 0 ? "w-2/3 rounded-l-xl rounded-r-none" : "w-1/3 rounded-r-xl rounded-l-none border "} bg-green-200  hover:shadow-lg hover:shadow-green-300 hover:border-green-400`}
@@ -36,7 +34,7 @@ export default function CardUpcoming({event, index}: {event: Ieventos, index: nu
                 </CardTitle>
                 <div className="flex items-center gap-2">
                   <p className="text-sm">
-                    {fechaInicio} - {hora}
+                    fecha
                   </p>
                   <CardDescription className="text-sm">
                     {event.description}
