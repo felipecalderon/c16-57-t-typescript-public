@@ -8,7 +8,7 @@ const Cta = () => {
       className="h-screen w-full flex flex-col items-center mx-auto place-content-center justify-center"
       style={{ backgroundColor: "#F4D977"}}
     >
-      <h2 className="text-8xl  font-extrabold text-center text-wrap bree-serif-regular w-75 my-12">TU PRÓXIMA SALIDA <br/> ESTÁ ACA</h2>
+      <h2 className="text-8xl text-center text-wrap w-75 my-12">TU PRÓXIMA SALIDA <br/> ESTÁ ACA</h2>
 
       <div className="w-full py-10">
         <SearchBar />
