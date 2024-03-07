@@ -25,6 +25,10 @@ export const listEventsDB = async (query: GetEventsQuery) => {
       path: 'guestIds', 
       model: 'User' 
     })
+    .populate({
+      path: 'expenses', 
+      model: 'Expense' 
+    })
     .skip(page <= allPages ? offset : (allPages - 1) * limit)
     .limit(limit);
 
@@ -35,6 +39,11 @@ export const getEventDB = async (id: string) => {
   try {
     // Buscar evento si existe id
     const event = await Event.findById(id)
+      .populate('organizerId') 
+      .populate({
+        path: 'guestIds', 
+        model: 'User' 
+      })
     if (!event) return null;
     return event;
   } catch (error) {

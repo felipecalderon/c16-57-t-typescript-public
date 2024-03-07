@@ -16,4 +16,5 @@ const expenseSchema = new Schema({
   createdAt: { type: Date, default: Date.now }
 });
 
-module.exports = mongoose.model<IExpense>('Expense', expenseSchema);
+const Expense = mongoose.model<IExpense>('Expense', expenseSchema);
+export default Expense
