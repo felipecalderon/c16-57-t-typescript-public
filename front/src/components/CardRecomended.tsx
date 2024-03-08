@@ -18,7 +18,7 @@ export default function CardRecomended({ event, onClick}: { event: Ieventos, onC
     "https://img.freepik.com/foto-gratis/encuentro-amigos-restaurante_23-2148395439.jpg";
 
   return (
-    <Card className="w-full h-max  rounded-xl shadow-lg shadow-slate-500 hover:shadow-xl  bg-white" onClick={onClick} >
+    <Card className="w-full h-max cursor-pointer  rounded-xl shadow-lg shadow-slate-500 hover:shadow-xl  bg-white" onClick={onClick} >
       <CardContent className="flex justify-center items-center flex-col rounded-t-xl min-h-64 min-w-48" 
         style={{ backgroundImage: `url(${event.image ? event.image : img})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
           <div className="w-1/2 flex flex-col ">

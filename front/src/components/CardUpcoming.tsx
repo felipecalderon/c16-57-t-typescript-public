@@ -10,7 +10,7 @@ import { dateFormat } from "@/lib/date-format";
 import { Ieventos } from "@/lib/interfaces";
 import Image from "next/image";
 
-export default function CardUpcoming({event, index}: {event: Ieventos, index: number}){
+export default function CardUpcoming({event, index, onClick}: {event: Ieventos, index: number; onClick: () => void}){
   const img = "https://static.vecteezy.com/system/resources/previews/005/988/959/non_2x/calendar-icon-free-vector.jpg";
   const date = new Date(event.startDate).toLocaleTimeString("es-ES", {
     year: "numeric",
@@ -23,7 +23,8 @@ export default function CardUpcoming({event, index}: {event: Ieventos, index: nu
   
     return (
       <Card
-      className={`${index === 0 ? "w-2/3 rounded-l-xl rounded-r-none" : "w-1/3 rounded-r-xl rounded-l-none border "} shadow-slate-500 hover:shadow-xl`} style={{ backgroundColor: "#F4D977" }}
+      onClick={onClick} 
+      className={`${index === 0 ? "w-2/3 rounded-l-xl rounded-r-none" : "w-1/3 rounded-r-xl rounded-l-none border "} cursor-pointer shadow-slate-500 hover:shadow-xl`} style={{ backgroundColor: "#F4D977" }}
     >
       <CardContent style={{backgroundImage: `url(${event.image?event.image:img})`, backgroundSize: 'cover', backgroundPosition: 'center'}}
         className={`flex   min-h-80 ${index === 0 ? "rounded-tl-xl justify-items-end items-start " : "rounded-tr-xl justify-items-center items-center "}`}
@@ -46,7 +47,7 @@ export default function CardUpcoming({event, index}: {event: Ieventos, index: nu
             className="h-16 w-16 rounded-full"
           />
         </div>
-        <div className="flex flex-col items-center ">
+        <div className="flex flex-col items-start pl-3 ">
           <CardTitle className="text-start text-2xl">{event.title}</CardTitle>
           <CardDescription className="text-sm">{fechaInicio}</CardDescription>
         </div>
