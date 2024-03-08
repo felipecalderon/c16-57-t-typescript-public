@@ -10,13 +10,14 @@ export interface Ieventos{
     price?: number;
     image?: string;
     tags: string[];
-    organizerId: string;
+    organizerId: IUser;
     status: string,
-    guestIds: [],
-    expenses: string[];
+    guestIds: IUser[],
+    expenses: string[]
 }
 
 export interface IUser {
+    _id: string;
     name: string;
     age: number;
     email: string;
@@ -29,7 +30,7 @@ export interface IUser {
     expenses?: string[];
   }
 
-export interface IExpense {
+  export interface IExpense {
     _id: string;
     description: string;
     amount: number;

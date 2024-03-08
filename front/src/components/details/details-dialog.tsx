@@ -1,31 +1,114 @@
 'use client'
-import { Button } from "@/components/ui/button";
-import {
-  DialogContent,
-  DialogFooter,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { TfiLocationPin } from "react-icons/tfi";
-import { CalendarIcon } from "@radix-ui/react-icons";
-import { IoMdShare } from "react-icons/io";
-import { TiHeartOutline } from "react-icons/ti";
-import { FaPlus } from "react-icons/fa";
-import { GiKnifeFork } from "react-icons/gi";
-import { BsMoonStars } from "react-icons/bs";
-import { CiSun } from "react-icons/ci";
-import { LiaTheaterMasksSolid } from "react-icons/lia";
-import { MdOutlineMusicNote } from "react-icons/md";
-import { DialogOverlay } from "@radix-ui/react-dialog";
+import { DialogContent } from "@/components/ui/dialog";
 import { Ieventos } from "@/lib/interfaces";
+import { dateFormat } from "@/lib/date-format";
+import { RiMapPin2Fill } from "react-icons/ri";
+import { storeUser } from "@/stores/user.store";
+import axiosInstance from "@/lib/axios-config";
+import { useState } from "react";
+import { AxiosError } from "axios";
+import { useRouter } from "next/navigation";
 
-export default function DetalleDialog({ event }: { event: Ieventos }) {
+export default function DetalleDialog({ event, onClick }: { event: Ieventos, onClick: () => void  }) {
+  const { fecha, hora, mes } = dateFormat(event.startDate)
+  const { user } = storeUser()
+  const route = useRouter()
+  const [messages, setMessages] = useState({
+    msg: '',
+    error: ''
+  })
+  const token = typeof window !== 'undefined' ? window.localStorage.getItem("token") : undefined
+
+  const handleJoinEvent = async () => {
+    try {
+      const usuarioAsignado = await axiosInstance.post(`/api/events/new-guest/${event._id}`, {
+        guestId: user?._id
+      }, {
+        headers: {
+          "Auth-Token": token
+        }
+      })
+      route.refresh()
+      onClick()
+
+      setMessages({...messages, msg: 'Unido al evento exitosamente! 👌'})
+    } catch (error) {
+      if(error instanceof AxiosError){
+        setMessages({...messages, error: error.response?.data.error})
+      }
+      console.log(error);
+    }
+  }
+
+  const handleRemoveGuest = async () => {
+    try {
+      const usuarioAsignado = await axiosInstance.post(`/api/events/remove-guest/${event._id}`, {
+        guestId: user?._id
+      }, {
+        headers: {
+          "Auth-Token": token
+        }
+      })
+      route.push('/dashboard')
+      onClick()
+      setMessages({...messages, msg: 'Saliste del evento exitosamente! 😎'})
+    } catch (error) {
+      if(error instanceof AxiosError){
+        setMessages({...messages, error: error.response?.data.error})
+      }
+      console.log(error);
+    }
+  }
   return (
-    <>
-      <DialogContent
-        className="
-       p-12 mx-auto max-w-5xl h-max border border-spacing-2"
-      >
-        <section>
+    <DialogContent className="p-0 max-w-5xl">
+      <div className="flex flex-row">
+        <div className="w-1/2 px-20 py-20">
+          <p className="mb-10">{fecha} {hora}hrs</p>
+          <p className="text-4xl">{event.title}</p>
+          <p className="mb-10"><RiMapPin2Fill className="inline" /> {event.location}</p>
+          <p className="text-2xl">Sobre este evento</p>
+          <p className="font-extralight mb-10">{event.description}</p>
+          <p>Invitados: </p>
+          <p>
+            {
+              event.guestIds.map(({ name }) => {
+                return (
+                  <p>{name}</p>
+                )
+              })
+            }
+          </p>
+          <div className="flex flex-col justify-end items-end h-20">
+            <button className="px-3 py-2 bg-[#1A7754] text-white rounded-lg"
+              onClick={handleJoinEvent}>Unirse</button>
+          </div>
+        </div>
+        <div className="w-1/2 px-20 py-0 rounded-l-3xl shadow-xl bg-[#F4D977] flex flex-col items-center">
+          <div className="bg-white w-fit rounded-b-2xl shadow-lg mb-10">
+            <img src={event.organizerId.image} alt="" className="rounded-full w-36" />
+            <p className="text-center text-2xl font-light">{event.organizerId.name}</p>
+          </div>
+          <p className="mb-3">Listas de Gastos</p>
+          {
+            event.expenses.map(({ description, amount }) => {
+              return (
+                <div className="border-red-500 border-2 w-48">
+                  <p className="px-6">{description} - ${amount}</p>
+                </div>
+              )
+            }).slice(0, 4)
+          }
+          <div className="flex justify-start items-end h-20">
+            <button onClick={handleRemoveGuest} className="px-3 py-2 bg-black text-white rounded-lg">Descartar</button>
+          </div>
+        </div>
+      </div>
+      <div className="text-center">
+        { messages.error !== '' && <p className="text-red-600 p-3">{messages.error}</p> }
+        { messages.msg !== '' && <p className="text-green-600 p-3">{messages.msg}</p> }
+        </div>
+      {
+      /* <section>
           <div className="flex justify-between ">
             <div className="space-y-4">
               <DialogTitle className="text-3xl font-bold ">{event.title}</DialogTitle>
@@ -173,9 +256,7 @@ export default function DetalleDialog({ event }: { event: Ieventos }) {
               No me interesa
             </Button>
           </div>
-        </DialogFooter>
-      </DialogContent>
-
-    </>
+        </DialogFooter> */}
+    </DialogContent>
   )
 };
