@@ -255,13 +255,7 @@ export default function DetalleDialog({ event, onClick }: { event: Ieventos, onC
               No me interesa
             </Button>
           </div>
-<<<<<<< HEAD
-        </DialogFooter>
-      </DialogContent>
-    </>
-=======
         </DialogFooter> */}
     </DialogContent>
->>>>>>> 165fb444e473354f5932a49aaf48fe44a2496251
   )
 };
