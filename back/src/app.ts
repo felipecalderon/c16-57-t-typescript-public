@@ -7,7 +7,11 @@ import routes from './routes/index'
 const app = express();
 //*Middlewares===============
 envs.NODE_ENV === "development" && app.use(morgan("dev"));
-app.use(cors({ origin: '*', exposedHeaders: 'Auth-Token' }));
+app.use(cors({ 
+    origin: '*', 
+    exposedHeaders: 'Auth-Token',
+    methods: 'GET,HEAD,PUT,POST,DELETE',
+}));
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
