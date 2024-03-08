@@ -9,9 +9,31 @@ export interface Ieventos{
     isPrivate: boolean;
     price?: number;
     image?: string;
-    tags?: string[];
-    organizerId: string;
+    tags: string[];
+    organizerId: IUser;
     status: string,
-    guestIds: [],
-    expenses: []
+    guestIds: IUser[],
+    expenses: IExpense[]
 }
+
+export interface IUser {
+    _id: string;
+    name: string;
+    age: number;
+    email: string;
+    password: string;
+    image: string;
+    signUpDate: Date;
+    location: string;
+    interestIds?: string[];
+    events?: string[];
+    expenses?: string[];
+  }
+
+  export interface IExpense {
+    _id: string;
+    description: string;
+    amount: number;
+    eventId: string;
+    userId: string;
+  }

@@ -27,7 +27,7 @@ const EventFilterPage = () => {
             <DialogTrigger asChild>
                 <CardEvent onClick={toggleDialog} key={event.title} event={event}></CardEvent>
             </DialogTrigger>
-            <DetalleDialog event={event}/>
+            <DetalleDialog event={event} onClick={toggleDialog}/>
           </Dialog>
         ))}
       </div>

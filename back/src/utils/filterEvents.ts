@@ -4,7 +4,7 @@ import {
 } from "../config/interfaces/querys.interface";
 
 export const validateQueryParams = (query: GetEventsQuery) => {
-  const limit = Number(query.limit || "5");
+  const limit = Number(query.limit || "10");
   const page = Number(query.page || "1");
 
   if (isNaN(limit) || limit <= 0) {

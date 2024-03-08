@@ -2,6 +2,7 @@
 import { CiSearch } from "react-icons/ci";
 import { useState } from "react";
 import axios from "axios";
+import { Button } from "./ui/button";
 const SearchBar = () => {
   const [input, setInput] = useState("");
 
@@ -12,14 +13,19 @@ const SearchBar = () => {
   };
 
   return (
-    <div className="grid grid-cols-8 pl-3 pr-3 pb-3 mt-10 w-full ">
-      <input
-        type="search"
-        placeholder={"Busca tu proxima salida"}
-        className="relative w-96 p-2 pl-8 rounded-full col-start-3 col-span-3  outline outline-offset-5 outline-1 outline-green-600 focus:outline-none focus:ring-2 focus:ring-green-400  focus:shadow-lg focus:shadow-gray-500"
-        onChange={handleInput}
-      />
-      <CiSearch className="absolute top-24 left-80 rigth-80 text-lg text-gray-500 "/>
+    <div className="w-full flex items-center justify-center ">
+      <div className="w-2/4 flex bg-white rounded-full ">
+        <input
+          type="text"
+          placeholder="Cine en Buenos Aires"
+          className=" w-full border-gray-300 rounded-l-full text-3xl text-center"
+          onChange={handleInput}
+        />
+
+        <Button className="bg-green-400  rounded-r-full text-white hover:shadow-lg size-1/12 hover:shadow-gray-300 hover:bg-green-300">
+          <CiSearch className="size-full " />
+        </Button>
+      </div>
     </div>
   );
 };

@@ -20,5 +20,5 @@ export interface IEvent extends Document {
   location: string;
   status: eventStatus;
   guestIds: string[];
-  expenses: Schema.Types.ObjectId[];
+  expenses: string[];
 }
