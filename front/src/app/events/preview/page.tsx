@@ -1,6 +1,6 @@
-"use client";
+/* "use client";
 import axios from "axios";
-import React from "react";
+import React, { ChangeEvent } from "react";
 import { useState } from "react";
 import { Ieventos } from "@/lib/interfaces";
 import { dateFormat } from "@/lib/date-format";
@@ -24,9 +24,33 @@ import { IExpense } from "@/lib/interfaces";
 const Preview = () => {
   const [event, setEvent] = useState({} as Ieventos);
   const [selected, setSelected] = useState(false);
+  const [isEditando, setIsEditando] = useState(false);
+  const handdleEdit = () => {
+    setIsEditando(!isEditando);
+  };
+
+
+
+
 
   const handleSelect = () => {
     setSelected(!selected);
+  };
+
+  const deleteEvent = async () => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:3001/api/events/${event._id}`,
+        {
+          headers: {
+            "Auth-Token": localStorage.getItem("token"),
+          },
+        }
+      );
+      console.log(response);
+    } catch (error) {
+      console.error("Error al eliminar el evento:", error);
+    }
   };
 
   const handleSubmit = async (e : React.FormEvent<HTMLFormElement>) => {
@@ -46,6 +70,40 @@ const Preview = () => {
       fnGetEvent();
     } catch (error) {
       console.error('Error making POST request', error);
+    }
+  };
+
+  const [formData, setFormData] = useState({
+    title: '',
+    description: '',
+    location: '',
+    startDate: '',
+    endDate: '',
+    isPrivate: 'true',
+  });
+
+  // Función para manejar cambios en el formulario
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.id]: e.target.value,
+    });
+  };
+
+  const guardarEvento = async () => {
+    try {
+      const response = await axios.put(
+        `http://localhost:3001/api/events/${event._id}`,
+        formData,
+        {
+          headers: {
+            "Auth-Token": localStorage.getItem("token"),
+          },
+        }
+      );
+      console.log(response);
+    } catch (error) {
+      console.error("Error al guardar el evento:", error);
     }
   };
 
@@ -93,7 +151,7 @@ const Preview = () => {
       </div>
       <div className="w-10/12  h-full p-12">
         <div className="flex justify-end gap-5">
-        <button className=" rounded-full p-2">
+        <button className=" rounded-full p-2" onClick={handdleEdit}>
           <CiSettings className="text-4xl border rounded-full"/>
         </button>
         <button className="rounded-full p-2 ">
@@ -117,14 +175,93 @@ const Preview = () => {
 
         <h4 className="font-semibold font-serif text-lg mt-4">
           Detalles del evento
-        </h4>
-
+        </h4>  
+        {isEditando ? (
+          <form className="w-full my-2 shadow-2xl bg-[#F5CAD7] shadow-slate-500 mb-4 rounded-lg p-4 flex flex-col gap-5">
+          <div className="w-full px-2 flex flex-col gap-5">
+            <label htmlFor="title">Titulo</label>
+            <input
+              id="title"
+              type="text"
+              placeholder="Titulo"
+              value={formData.title}
+              defaultValue={event.title}
+              onChange={handleInputChange}
+            />
+          </div>
+    
+          <div className="w-full flex flex-col gap-5">
+            <label htmlFor="description">Descripcion</label>
+            <input
+              id="description"
+              type="text"
+              placeholder="Descripcion"
+              value={formData.description}
+              defaultValue={event.description}
+              onChange={handleInputChange}
+            />
+          </div>
+    
+          <div className="w-full flex flex-col gap-5">
+            <label htmlFor="location">Ubicacion</label>
+            <input
+              id="location"
+              type="text"
+              placeholder="Ubicacion"
+              defaultValue={event.location}
+              value={formData.location}
+              
+              onChange={handleInputChange}
+            />
+          </div>
+    
+          <div className="w-full flex flex-col gap-5">
+            <label htmlFor="startDate">Fecha de inicio</label>
+            <input
+              id="startDate"
+              type="date"
+              value={formData.startDate}
+              onChange={handleInputChange}
+            />
+          </div>
+    
+          <div className="w-full flex flex-col gap-5">
+            <label htmlFor="endDate">Fecha de fin</label>
+            <input
+              id="endDate"
+              type="date"
+              value={formData.endDate}
+              onChange={handleInputChange}
+            />
+          </div>
+    
+          <div className="w-full flex flex-col gap-5">
+            <label htmlFor="isPrivate">Privacidad</label>
+            <select
+              id="isPrivate"
+              className="w-full p-2 rounded-lg"
+              value={formData.isPrivate}
+              onChange={handleInputChange}
+            >
+              <option value="true">Privado</option>
+              <option value="false">Publico</option>
+            </select>
+          </div>
+                          <div className="w-full flex justify-center">
+                            <Button className="w-1/4 bg-[#1A7754] text-white" onClick={guardarEvento}>
+                              Guardar
+                              </Button>
+                              </div>
+                              </form>
+                              ) : (
+                                
+                              
         <div className="bg-[#F5CAD7] w-full shadow-2xl shadow-slate-500 mb-4 rounded-lg p-4">
           <h2 className="text-lg font-bold font-serif"> {event.title}</h2>
 
           <h4 className="font-normal text-lg text-wrap">{event.description}</h4>
         </div>
-
+                              )}
         <div className="w-full">
           <Tabs defaultValue="invitar" className=" w-full">
             <TabsList className="grid w-[400px] grid-cols-2">
@@ -224,3 +361,4 @@ const Preview = () => {
 };
 
 export default Preview;
+ */

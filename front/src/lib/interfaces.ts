@@ -13,7 +13,7 @@ export interface Ieventos{
     organizerId: string;
     status: string,
     guestIds: [],
-    expenses: []
+    expenses: string[];
 }
 
 export interface IUser {

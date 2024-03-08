@@ -59,6 +59,7 @@ const formSchema = z.object({
   description: z.string().min(3, { message: "Debe ser mayor a 3 caracteres" }),
   isPrivate: z.boolean().default(false).optional(),
   tags: z.array(z.string()).optional(),
+  expenses: z.array(z.string()).optional()
 });
 
 const Create = () => {
@@ -73,6 +74,7 @@ const Create = () => {
       description: "",
       isPrivate: false,
       tags: [],
+      
     },
   });
 
@@ -80,13 +82,16 @@ const Create = () => {
   const handleSubmit = async (values: z.infer<typeof formSchema>) => {
     const organizerId = localStorage.getItem("token")!;
     values.tags = tags;
+    values.expenses = gasto
+    console.log(gasto)
+    
     
     const formatoFechaInicio = dateFormat(values.startDate).fecha
     const formatoFechaFin = dateFormat(values.endDate).fecha
 
     const startDate = combineDate({fecha: formatoFechaInicio, hora: values.horaInicio})
     const endDate = combineDate({fecha: formatoFechaFin, hora: values.horaFin})
-
+    console.log(values)
     try {
       const response = await axios.post(
         `http://localhost:3001/api/events/`,
@@ -107,6 +112,29 @@ const Create = () => {
     }
   };
 
+  const [gasto, setGasto] = useState<string[]>([]);
+  const handleGastoChange = (
+    event:
+      | React.ChangeEvent<HTMLTextAreaElement>
+      | React.KeyboardEvent<HTMLTextAreaElement>
+  ) => {
+    const inputValue = event.currentTarget.value;
+    const lastChar = inputValue.charAt(inputValue.length - 1);
+
+    if (
+      lastChar === "," ||
+      (event as React.KeyboardEvent<HTMLTextAreaElement>).key === "Enter"
+    ) {
+      // Eliminar la coma o el retorno de carro y agregar el tag al array
+      const newGasto = inputValue.slice(0, -1).trim();
+      setGasto((prevGasto) => [...prevGasto, newGasto]);
+
+      // Limpiar el campo de entrada
+      event.currentTarget.value = "";
+      // O mejor aún, usar useState para limpiar el campo
+      // setInputValue('');
+    }
+  };
   
 
   const [isNext, setIsNext] = useState(false);
@@ -412,10 +440,7 @@ const Create = () => {
                               }}
                             >
                               Diurna
-                            </DropdownMenuCheckboxItem>
-
-
-                            
+                            </DropdownMenuCheckboxItem>  
                           </DropdownMenuContent>
                         </DropdownMenu>
                       </FormControl>
@@ -427,6 +452,37 @@ const Create = () => {
 
 
                 />
+                <FormField
+                  control={form.control}
+                  name="expenses"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Gastos *</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder="Añadir gastos separados por comas"
+                          {...field}
+                          onChange={handleGastoChange}
+                          onKeyDown={handleGastoChange}
+                          className="h-8 w-full bg-slate-200"
+                        />
+                      </FormControl>
+                      <div>
+                        {gasto.map((expense, index) => (
+                          <span
+                            key={index}
+                            className="bg-blue-200 p-1 rounded-md m-1"
+                          >
+                            {expense}
+                          </span>
+                        ))}
+                      </div>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                
                 </div>
                 
                 

@@ -28,7 +28,6 @@ export default function CardRecomended({ event }: { event: Ieventos }) {
         ><CardTitle className="text-start text-2xl">
             {event.title}
             <br />
-            {mes}
           </CardTitle>
           <CardDescription className="text-sm">
             asdasd

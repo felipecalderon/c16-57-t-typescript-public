@@ -9,6 +9,7 @@ import NotificationsModal from "./NotificationsModal";
 import { storeEvents } from "@/stores/events.store";
 import { useEffect } from "react";
 import { storeUser } from "@/stores/user.store";
+import { Button } from "./ui/button";
 
 const Header = () => {
   const { getEvents } = storeEvents()
@@ -66,18 +67,19 @@ const Header = () => {
             </NavigationMenuLink>
           </Link>
           
-            {token ? (
-              <Link href="#" legacyBehavior passHref>
-            <NavigationMenuLink  onClick={handleLogout} className="
-            border rounded-lg bg-[#1A7754] text-lg text-white px-4 py-2 hover:bg-[#F6F6F6] hover:text-[#1A7754]
-            ">
-              CERRAR SESION
-            </NavigationMenuLink>
-            </Link>):""}
           
         </NavigationMenuList>
+            
       </NavigationMenu>
+      <div>
+      {token?
+            <Button   onClick={handleLogout} className="border rounded-lg  mx-2 bg-[#1A7754] text-lg text-white px-4 py-2 hover:bg-[#F6F6F6] hover:text-[#1A7754]">
+              CERRAR SESION
+            
+            </Button>: null}
+            </div>
     </div>
+    
   );
 };
 
