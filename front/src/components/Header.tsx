@@ -7,7 +7,7 @@ import {
 import Link from "next/link";
 import NotificationsModal from "./NotificationsModal";
 import { storeEvents } from "@/stores/events.store";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { storeUser } from "@/stores/user.store";
 import { Button } from "./ui/button";
 
@@ -15,15 +15,18 @@ const Header = () => {
   const { getEvents } = storeEvents()
   const { user, getUserData } = storeUser()
   const profileimg = "https://previews.123rf.com/images/aprillrain/aprillrain2212/aprillrain221200638/196354278-imagen-de-caricatura-de-un-astronauta-sentado-en-una-luna-ilustraci%C3%B3n-de-alta-calidad.jpg"
-  const token = typeof window !== 'undefined' ? window.localStorage.getItem("token") : undefined
+  const [isLogged, setLogged] = useState(false)
   const handleLogout = () => {
     localStorage.removeItem("token");
     window.location.href = "/auth";
+    setLogged(false)
   }
   
-
+  
   useEffect(() => {
+    const token = typeof window !== 'undefined' ? window.localStorage.getItem("token") : undefined
     if (token) {
+      setLogged(true)
       getEvents(token, '', 20)
       getUserData(token)
     }
@@ -72,11 +75,9 @@ const Header = () => {
             
       </NavigationMenu>
       <div>
-      {token?
-            <Button   onClick={handleLogout} className="border rounded-lg  mx-2 bg-[#1A7754] text-lg text-white px-4 py-2 hover:bg-[#F6F6F6] hover:text-[#1A7754]">
+      {isLogged && <Button onClick={handleLogout} className="border rounded-lg  mx-2 bg-[#1A7754] text-lg text-white px-4 py-2 hover:bg-[#F6F6F6] hover:text-[#1A7754]">
               CERRAR SESION
-            
-            </Button>: null}
+            </Button>}
             </div>
     </div>
     
