@@ -37,10 +37,10 @@ export default function LoginForm(){
     
       const handleSubmit = async (values: z.infer<typeof formSchema>) => {
         //fetch post axios
+        console.log(process.env.NEXT_PUBLIC_BACKURL);
         try {
     
           const  response  = await axiosInstance.post(`/api/auth/login`, values)
-    
           const token = response.headers['auth-token']
           if(!token) throw new Error('Token no recibido')
           localStorage.setItem('token', token)
