@@ -14,7 +14,6 @@ import { Button } from "./ui/button";
 const Header = () => {
   const { getEvents } = storeEvents()
   const { user, getUserData } = storeUser()
-  const profileimg = "https://previews.123rf.com/images/aprillrain/aprillrain2212/aprillrain221200638/196354278-imagen-de-caricatura-de-un-astronauta-sentado-en-una-luna-ilustraci%C3%B3n-de-alta-calidad.jpg"
   const [isLogged, setLogged] = useState(false)
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -60,7 +59,7 @@ const Header = () => {
               <NavigationMenuLink className=" hover:underline font-serif font-extrabold  text-lg">
 
                 <img
-                  src={profileimg}
+                  src={user.image}
                   alt="profile"
                   className="h-12 w-12 rounded-full"
                 />
