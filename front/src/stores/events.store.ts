@@ -1,5 +1,5 @@
+import axiosInstance from "@/lib/axios-config";
 import { Ieventos } from "@/lib/interfaces";
-import axios from "axios";
 import { create } from "zustand";
 
 export interface EventsStore {
@@ -16,10 +16,10 @@ export const storeEvents = create<EventsStore>((set) => ({
     let querys = `limit=${limit}`;
     if (query !== "") {
       querys = `${querys}&q=${query}`;
-      endpoint = `http://localhost:3001/api/events?${querys}`;
-    } else endpoint = `http://localhost:3001/api/events?${querys}`;
+      endpoint = `/api/events?${querys}`;
+    } else endpoint = `/api/events?${querys}`;
 
-    const { data }: { data: Ieventos[] } = await axios.get(endpoint,
+    const { data }: { data: Ieventos[] } = await axiosInstance.get(endpoint,
       {
         headers: {
           "Auth-Token": token,
