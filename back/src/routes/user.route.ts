@@ -4,7 +4,7 @@ import { verifyToken } from "../middlewares/verifyToken";
 
 const route = Router();
 
-route.get("/", getUsersController);
+route.get("/", verifyToken, getUsersController);
 route.post("/", createUserController);
 route.put("/", updateUserController);
 route.delete("/", verifyToken, deleteUserController);

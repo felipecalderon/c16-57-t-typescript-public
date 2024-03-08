@@ -3,38 +3,21 @@ import { useEffect, useState } from "react";
 
 import { useRouter } from "next/navigation";
 import axiosInstance from "@/lib/axios-config";
+import { storeUser } from "@/stores/user.store";
 
 const HomePage = () => {
-  const [isLogged, setLogged] = useState(false)
   const route = useRouter()
-  const fetchEvents = async () => {
-        try {
-            const organizerId = window ? localStorage.getItem("token") : undefined;
-            const response = await axiosInstance.get(
-                `/api/events/`,
-                {
-                  headers: {
-                    "auth-token": organizerId,
-                  },
-                }
-              );
-              const eventos = response.data
-              console.log(eventos);
-              setLogged(true)
-              route.push('/dashboard')
+  const { user } = storeUser()
 
-        } catch (error) {
-          setLogged(false)
-          route.push('/auth')
-        }
+  useEffect(() => {
+    if (!user) {
+      route.push('/auth')
+    } else {
+      route.push('/dashboard')
     }
-    useEffect(() => {
-        fetchEvents()
-        route.push("dashboard")
-      }, [])
-      
+  }, [])
   return (
-  <p>..Cargando</p>
+    <p>..Cargando</p>
   )
 }
 
