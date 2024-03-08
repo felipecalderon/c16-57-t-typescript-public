@@ -20,8 +20,8 @@ const Header = () => {
     window.location.href = "/auth/login";
     setLogged(false)
   }
-  
-  
+
+
   useEffect(() => {
     const token = typeof window !== 'undefined' ? window.localStorage.getItem("token") : undefined
     if (token) {
@@ -38,26 +38,23 @@ const Header = () => {
         style={{ background: "#1A7754" }}
       >
         <Link className="" href="/dashboard">
-        <div className="flex flex-col items-center pt-8">
-          <h1 className="text-3xl font-bold text-white">MITI</h1>
-          <h1 className="text-3xl font-bold text-white">MITI</h1>
-        </div>
+          <div className="flex flex-col items-center pt-8">
+            <h1 className="text-3xl font-bold text-white">MITI</h1>
+            <h1 className="text-3xl font-bold text-white">MITI</h1>
+          </div>
         </Link>
-        
-      </div>
-      <NavigationMenu>
-        <NavigationMenuList className="flex gap-10">
-          <Link href="/events/explore" legacyBehavior passHref>
-            <NavigationMenuLink className=" hover:underline font-serif font-extrabold  text-lg">
-              EVENTOS
-            </NavigationMenuLink>
-          </Link>
-          
-          {
-            user && user.image
-            && <Link href="/profile" legacyBehavior passHref>
-              <NavigationMenuLink className=" hover:underline font-serif font-extrabold  text-lg">
 
+      </div>
+      {
+        user && <NavigationMenu>
+          <NavigationMenuList className="flex gap-10">
+            <Link href="/events/explore" legacyBehavior passHref>
+              <NavigationMenuLink className=" hover:underline font-serif font-extrabold  text-lg">
+                EVENTOS
+              </NavigationMenuLink>
+            </Link>
+            <Link href="/profile" legacyBehavior passHref>
+              <NavigationMenuLink className=" hover:underline font-serif font-extrabold  text-lg">
                 <img
                   src={user.image}
                   alt="profile"
@@ -65,24 +62,21 @@ const Header = () => {
                 />
               </NavigationMenuLink>
             </Link>
-          }
-          <Link href="" legacyBehavior passHref>
-            <NavigationMenuLink className="text-lg text-green-500 hover:text-green-400">
-              <NotificationsModal />
-            </NavigationMenuLink>
-          </Link>
-          
-          
-        </NavigationMenuList>
-            
-      </NavigationMenu>
+            <Link href="" legacyBehavior passHref>
+              <NavigationMenuLink className="text-lg text-green-500 hover:text-green-400">
+                <NotificationsModal />
+              </NavigationMenuLink>
+            </Link>
+          </NavigationMenuList>
+        </NavigationMenu>
+      }
       <div>
-      {isLogged && <Button onClick={handleLogout} className="border rounded-lg  mx-2 bg-[#1A7754] text-lg text-white px-4 py-2 hover:bg-[#F6F6F6] hover:text-[#1A7754]">
-              CERRAR SESION
-            </Button>}
-            </div>
+        {isLogged && <Button onClick={handleLogout} className="border rounded-lg  mx-2 bg-[#1A7754] text-lg text-white px-4 py-2 hover:bg-[#F6F6F6] hover:text-[#1A7754]">
+          CERRAR SESION
+        </Button>}
+      </div>
     </div>
-    
+
   );
 };
 

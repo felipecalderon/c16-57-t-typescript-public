@@ -7,10 +7,6 @@ import { Button } from "@/components/ui/button";
 const Login = () => {
   return (
     <section className="flex justify-center items-center h-screen bg-[#1A7754] flex-col">
-      <div className="w-full py-5 px-8 text-5xl font-bold text-white">
-        <h2>Miti</h2>
-        <h2>Miti</h2>
-      </div>
       <div className="flex rounded-3xl bg-white">
         <div className="w-96 h-96 bg-white flex items-center flex-col pt-12 gap-3 rounded-l-3xl">
           <h2 className="text-2xl font-bold text-teal-900">Hola de vuelta!</h2>

@@ -11,8 +11,7 @@ const UpcomingEvents = () => {
     const date = new Date(event.startDate);
     const today = new Date();
     return date < today;
-  });
-  eventFilter.splice(0, 3);
+  }).splice(0, 2);
   
   return (
     <section className="pt-2 pl-12 pr-12 pb-2">
