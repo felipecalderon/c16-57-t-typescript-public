@@ -9,11 +9,13 @@ import {
 import { dateFormat } from "@/lib/date-format";
 
 import { Ieventos } from "@/lib/interfaces";
+import { storeUser } from "@/stores/user.store";
 import Image from "next/image";
 
 export default function CardRecomended({ event, onClick}: { event: Ieventos, onClick: () => void }) {
   const {fecha, hora, mes} = dateFormat(event.startDate)
   const [ dia ] = fecha.split('/')
+  const { user } = storeUser()
   const img =
     "https://img.freepik.com/foto-gratis/encuentro-amigos-restaurante_23-2148395439.jpg";
 
@@ -28,7 +30,7 @@ export default function CardRecomended({ event, onClick}: { event: Ieventos, onC
       </CardContent>
       <CardFooter className="flex  justify-start  py-2 rounded-b-xl">
         <div>
-          <img src="https://previews.123rf.com/images/aprillrain/aprillrain2212/aprillrain221200638/196354278-imagen-de-caricatura-de-un-astronauta-sentado-en-una-luna-ilustración-de-alta-calidad.jpg" alt="profile" className="h-16 w-16 rounded-full" />
+          <img src={user?.image} alt="profile" className="h-16 w-16 rounded-full" />
         </div>
         <div className="flex flex-col items-start pl-3">
           <CardTitle className="text-start text-2xl bree-serif-regular">

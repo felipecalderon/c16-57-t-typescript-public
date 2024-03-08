@@ -8,6 +8,7 @@ import {
 import { dateFormat } from "@/lib/date-format";
 
 import { Ieventos } from "@/lib/interfaces";
+import { storeUser } from "@/stores/user.store";
 import Image from "next/image";
 
 export default function CardUpcoming({event, index, onClick}: {event: Ieventos, index: number; onClick: () => void}){
@@ -20,7 +21,7 @@ export default function CardUpcoming({event, index, onClick}: {event: Ieventos, 
   const fechaInicio = date.split(",")[0];
   const mes = date.split(" ")[2];
   const dia = date.split(" ")[0];
-  
+  const { user } = storeUser()
     return (
       <Card
       onClick={onClick} 
@@ -42,7 +43,7 @@ export default function CardUpcoming({event, index, onClick}: {event: Ieventos, 
       <CardFooter className={`flex  justify-start  py-2 rounded-b-xl`}>
         <div className="px-2 ">
           <img
-            src="https://previews.123rf.com/images/aprillrain/aprillrain2212/aprillrain221200638/196354278-imagen-de-caricatura-de-un-astronauta-sentado-en-una-luna-ilustraci%C3%B3n-de-alta-calidad.jpg"
+            src={user?.image}
             alt="profile"
             className="h-16 w-16 rounded-full"
           />
