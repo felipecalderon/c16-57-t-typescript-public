@@ -4,8 +4,16 @@ import axios from "axios";
 import { Card, CardContent, CardDescription, CardTitle } from "./ui/card";
 import { Ieventos } from "@/lib/interfaces";
 import { useEffect, useState } from "react";
+import DetalleDialog from "./details/details-dialog";
+import { Dialog, DialogTrigger } from "./ui/dialog";
+
 
 const AllEvents = ({events}: {events: Ieventos[]}) => {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const handleToggle = () => {
+    console.log({isDialogOpen});
+    setIsDialogOpen(!isDialogOpen)
+  }
   if (events) return (
     <div className="w-full h-full my-10">
       <h1
@@ -20,6 +28,8 @@ const AllEvents = ({events}: {events: Ieventos[]}) => {
       <div className="grid grid-cols-4 gap-4 max-xl:grid-cols-1 my-10">
         {events.map((event, index) => {
           return (
+            <Dialog onOpenChange={setIsDialogOpen}>
+                  <DialogTrigger asChild>
             <Card
               key={index}
               className="w-full lg:h-max min-h-36  rounded-xl shadow-lg shadow-slate-500 hover:shadow-xl p-1"
@@ -42,6 +52,9 @@ const AllEvents = ({events}: {events: Ieventos[]}) => {
                 </div>
               </CardContent>
             </Card>
+            </DialogTrigger>
+            <DetalleDialog event={event} onClick={() => handleToggle} />
+            </Dialog>
           );
         })}
       </div>

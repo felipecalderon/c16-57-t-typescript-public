@@ -57,7 +57,7 @@ const Explore = () => {
   return (
     <div className="flex h-screen w-full px-2">
       <div className="w-1/12 h-full flex justify-center my-40">
-        <div className="fixed flex flex-col items-center justify-between">
+        {/* <div className="fixed flex flex-col items-center justify-between">
           <div className="h-1/6 my-4">
           </div>
           {
@@ -69,7 +69,7 @@ const Explore = () => {
               handleSelect={elemento.handleSelect} 
             />)
           }
-        </div>
+        </div> */}
       </div>
       <div className="w-11/12 h-full my-40">
       <Input placeholder="Buscar eventos" type='text' value={query} onChange={handleInputChange} />
