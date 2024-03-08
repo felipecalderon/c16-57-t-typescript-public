@@ -12,9 +12,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import axios from "axios";
 import { redirect } from "next/dist/server/api-utils";
 import { useState } from "react";
+import axiosInstance from "@/lib/axios-config";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Debe ser un email válido" }),
@@ -38,8 +38,8 @@ const LoginForm = () => {
   const handleSubmit = async (values: z.infer<typeof formSchema>) => {
     //fetch post axios
     try {
-      const response = await axios.post(
-        `http://localhost:3001/api/auth/login`,
+      const response = await axiosInstance.post(
+        `/api/auth/login`,
         values
       );
 
