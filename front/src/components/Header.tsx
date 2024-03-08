@@ -18,7 +18,7 @@ const Header = () => {
   const [isLogged, setLogged] = useState(false)
   const handleLogout = () => {
     localStorage.removeItem("token");
-    window.location.href = "/auth";
+    window.location.href = "/auth/login";
     setLogged(false)
   }
   
