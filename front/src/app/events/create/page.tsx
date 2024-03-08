@@ -43,6 +43,7 @@ import { combineDate, dateFormat } from "@/lib/date-format";
 import axiosInstance from "@/lib/axios-config";
 import { storeUser } from "@/stores/user.store";
 import { Ieventos } from "@/lib/interfaces";
+import { useRouter } from "next/navigation";
 
 
 type Checked = DropdownMenuCheckboxItemProps["checked"]
@@ -83,6 +84,7 @@ const Create = () => {
 
   const [tags, setTags] = useState<string[]>([]);
   const { user } = storeUser()
+
   const handleSubmit = async (values: z.infer<typeof formSchema>) => {
     const organizerId = localStorage.getItem("token")!;
     values.tags = tags;
@@ -119,7 +121,7 @@ const Create = () => {
           }
         }
         console.log("Evento creado", newEvent);
-        location.href = "http://localhost:3000/dashboard";
+        location.href = "/dashboard";
       }
       // Resto del código después de la solicitud POST
     } catch (error) {

@@ -4,28 +4,13 @@ import { useEffect, useState } from "react";
 import Axios from "axios";
 import { Ieventos } from "@/lib/interfaces";
 import CardPopular from "@/components/CardPopular";
+import { storeEvents } from "@/stores/events.store";
 
 
 
 const Popular = () => {
-    const [eventos, setEventos] = useState<Ieventos[]>([]);
+    const { events } = storeEvents()
 
-  const fnGetEvents = async () => {
-    try {
-      const response = await Axios.get("http://localhost:3001/api/events/", {
-        headers: {
-          "Auth-Token": localStorage.getItem("token"),
-        },
-      });
-      console.log(response.data)
-      setEventos(response.data.slice(0, 4));
-    } catch (error) {
-      console.error("Error al consultar el evento:", error);
-    }
-  };
-  useEffect(() => {
-    fnGetEvents();
-  }, []);
     return (
         <div className="w-full mx-auto">
         <div className="text-left block w-full  pl-12 ">
@@ -33,7 +18,7 @@ const Popular = () => {
         </div>
         <div className="grid grid-cols-2 gap-4 max-xl:grid-cols-1">
             {
-            eventos.map((event, index) => {
+            events.map((event: Ieventos, index: number) => {
                 return (
                 <CardPopular key={index} event={event} />
                 );

@@ -2,11 +2,11 @@
 import Link from "next/link";
 import { Ieventos } from "@/lib/interfaces";
 import CardUpcoming from "./CardUpcoming";
-import useEventsList from "@/hooks/get-events";
+import { storeEvents } from "@/stores/events.store";
 
 const UpcomingEvents = () => {
-  const { events } = useEventsList();
-  console.log(events);
+  const { events } = storeEvents();
+
   const eventFilter = events.filter((event: Ieventos) => {
     const date = new Date(event.startDate);
     const today = new Date();
@@ -32,7 +32,7 @@ const UpcomingEvents = () => {
       </div>
 
       <div className="flex  items-center gap-3">
-        {eventFilter.map((event, index) => < CardUpcoming key={index} index={index} event={event}/>)}
+        {eventFilter.map((event: Ieventos, index: number) => < CardUpcoming key={index} index={index} event={event}/>)}
       </div>
     </section>
   );
