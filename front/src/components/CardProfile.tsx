@@ -17,7 +17,7 @@ const CardProfile = () => {
             className="w-full h-60 rounded-tl-md object-cover object-center"
           />
           <div className="h-16  pl-4 pt-2 bg-blue-100 ">
-            <h3 className="text-xl font-bold">{user.name.toUpperCase()}</h3>
+            <h3 className="text-xl font-bold">{user.name && user.name.toUpperCase()}</h3>
             <p className="font-semibold">{user.age} Años, de {user.location}.</p>
           </div>
         </article>
