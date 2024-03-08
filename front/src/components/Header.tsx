@@ -38,16 +38,19 @@ const Header = () => {
         className="w-48  absolute left-44 p-10 rounded-b-lg"
         style={{ background: "#1A7754" }}
       >
+        <Link className="" href="/dashboard">
         <div className="flex flex-col items-center pt-8">
           <h1 className="text-3xl font-bold text-white">MITI</h1>
           <h1 className="text-3xl font-bold text-white">MITI</h1>
         </div>
+        </Link>
+        
       </div>
       <NavigationMenu>
         <NavigationMenuList className="flex gap-10">
           <Link href="/events/explore" legacyBehavior passHref>
             <NavigationMenuLink className=" hover:underline font-serif font-extrabold  text-lg">
-              MIS EVENTOS
+              EVENTOS
             </NavigationMenuLink>
           </Link>
           
