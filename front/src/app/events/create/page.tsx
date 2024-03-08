@@ -23,7 +23,6 @@ import {
 } from "@/components/ui/popover";
 import { CalendarIcon } from "@radix-ui/react-icons";
 import { Input } from "@/components/ui/input";
-import axios from "axios";
 import { Calendar } from "@/components/ui/calendar";
 
 import { format } from "date-fns";
@@ -41,6 +40,9 @@ import {
 import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu"
 import { DialogContent } from "@/components/ui/dialog";
 import { combineDate, dateFormat } from "@/lib/date-format";
+import axiosInstance from "@/lib/axios-config";
+import { storeUser } from "@/stores/user.store";
+import { Ieventos } from "@/lib/interfaces";
 
 
 type Checked = DropdownMenuCheckboxItemProps["checked"]
@@ -78,23 +80,23 @@ const Create = () => {
     },
   });
 
+
   const [tags, setTags] = useState<string[]>([]);
+  const { user } = storeUser()
   const handleSubmit = async (values: z.infer<typeof formSchema>) => {
     const organizerId = localStorage.getItem("token")!;
     values.tags = tags;
-    values.expenses = gasto
-    console.log(gasto)
-    
+    values.expenses = []
     
     const formatoFechaInicio = dateFormat(values.startDate).fecha
     const formatoFechaFin = dateFormat(values.endDate).fecha
 
     const startDate = combineDate({fecha: formatoFechaInicio, hora: values.horaInicio})
     const endDate = combineDate({fecha: formatoFechaFin, hora: values.horaFin})
-    console.log(values)
+
     try {
-      const response = await axios.post(
-        `http://localhost:3001/api/events/`,
+      const response = await axiosInstance.post(
+        `/api/events/`,
         {...values, startDate, endDate},
         {
           headers: {
@@ -103,7 +105,20 @@ const Create = () => {
         }
       );
       if (response.status === 200) {
-        console.log("Evento creado", response);
+        const newEvent: Ieventos = response.data
+        
+        for(const singleGasto of gasto){
+          if(user){
+            const newGasto = await axiosInstance.post('/api/expense', {
+              description: singleGasto,
+              amount: 1000,
+              userId: user._id,
+              eventId: newEvent._id
+            })
+            console.log({newGasto});
+          }
+        }
+        console.log("Evento creado", newEvent);
         location.href = "http://localhost:3000/dashboard";
       }
       // Resto del código después de la solicitud POST
