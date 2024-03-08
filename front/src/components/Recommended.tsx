@@ -14,30 +14,17 @@ import CardRecomended from "./CardRecomended";
 import DetalleDialog from "./details/details-dialog";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { storeEvents } from "@/stores/events.store";
 
 const Recommended = () => {
-  const [eventos, setEventos] = useState<Ieventos[]>([]);
+  const { events } = storeEvents()
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const fnGetEvents = async () => {
-    try {
-      const response = await axios.get("http://localhost:3001/api/events/", {
-        headers: {
-          "Auth-Token": localStorage.getItem("token"),
-        },
-      });
-      setEventos(response.data);
-    } catch (error) {
-      console.error("Error al consultar el evento:", error);
-    }
-  };
-  useEffect(() => {
-    fnGetEvents();
-  }, []);
+  
   const handleToggle = () => {
     console.log({isDialogOpen});
     setIsDialogOpen(!isDialogOpen)
   }
-  if (eventos.length === 0) return <p>Cargando...</p>;
+  if (events.length === 0) return <p>Cargando...</p>;
   return (
     <section className="flex flex-col justify-center items-center p-2">
       <div className="text-left block w-full  pl-12 ">
@@ -46,7 +33,7 @@ const Recommended = () => {
       </div>
       <Carousel className="w-[calc(100vw-180px)] border-1 p-1">
         <CarouselContent>
-          {eventos.map((event, index) => {
+          {events.map((event: Ieventos, index: number) => {
             return (
               <CarouselItem key={index} className="basis-1/3 pt-4 pb-4 m-4- ">
                 <Dialog onOpenChange={setIsDialogOpen}>
