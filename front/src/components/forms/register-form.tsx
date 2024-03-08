@@ -11,7 +11,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import axios from "axios";
+import axiosInstance from "@/lib/axios-config";
 
 const formSchema = z
   .object({
@@ -44,7 +44,7 @@ export default function RegisterForm() {
       const valuesToSend = {
         ...values,
       };
-      const { data } = await axios.post('http://localhost:3001/api/auth/register', valuesToSend)
+      const { data } = await axiosInstance.post('/api/auth/register', valuesToSend)
       console.log({ data });
     } catch (error) {
       console.log(error);

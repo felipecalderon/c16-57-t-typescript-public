@@ -12,8 +12,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import axios from "axios";
 import { useState } from "react";
+import axiosInstance from "@/lib/axios-config";
 
 const formSchema = z.object({
     email: z.string().email({ message: "Debe ser un email válido" }),
@@ -39,7 +39,7 @@ export default function LoginForm(){
         //fetch post axios
         try {
     
-          const  response  = await axios.post(`http://localhost:3001/api/auth/login`, values)
+          const  response  = await axiosInstance.post(`/api/auth/login`, values)
     
           const token = response.headers['auth-token']
           if(!token) throw new Error('Token no recibido')
